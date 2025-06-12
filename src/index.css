@@ -43,6 +43,8 @@
     --golden: 39 84% 56%;
     --warm-sand: 39 77% 83%;
     --clay: 16 65% 35%;
+    --zellige-green: 160 84% 39%;
+    --henna: 13 75% 55%;
   }
 
   .dark {
@@ -80,6 +82,8 @@
     --golden: 39 84% 66%;
     --warm-sand: 39 47% 23%;
     --clay: 16 45% 45%;
+    --zellige-green: 160 84% 49%;
+    --henna: 13 75% 65%;
   }
 }
 
@@ -91,6 +95,10 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--terracotta) / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--deep-blue) / 0.05) 0%, transparent 50%),
+      linear-gradient(45deg, hsl(var(--warm-sand) / 0.02) 0%, transparent 25%, hsl(var(--golden) / 0.02) 50%, transparent 75%);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -99,8 +107,56 @@
 }
 
 @layer components {
+  .moroccan-pattern {
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        hsl(var(--terracotta) / 0.1) 0px,
+        hsl(var(--terracotta) / 0.1) 1px,
+        transparent 1px,
+        transparent 8px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        hsl(var(--deep-blue) / 0.1) 0px,
+        hsl(var(--deep-blue) / 0.1) 1px,
+        transparent 1px,
+        transparent 8px
+      );
+  }
+
+  .zellige-pattern {
+    background: 
+      radial-gradient(circle at 50% 50%, hsl(var(--terracotta) / 0.8) 2px, transparent 2px),
+      radial-gradient(circle at 25% 25%, hsl(var(--deep-blue) / 0.6) 1px, transparent 1px),
+      radial-gradient(circle at 75% 75%, hsl(var(--golden) / 0.4) 1px, transparent 1px);
+    background-size: 20px 20px, 15px 15px, 25px 25px;
+    background-position: 0 0, 10px 10px, 5px 5px;
+  }
+
   .product-card {
-    @apply bg-card rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-border/50;
+    @apply bg-card rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-border/50 relative overflow-hidden;
+  }
+
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+      hsl(var(--terracotta)), 
+      hsl(var(--golden)), 
+      hsl(var(--deep-blue)), 
+      hsl(var(--zellige-green))
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .product-card:hover::before {
+    opacity: 1;
   }
 
   .product-card:hover .product-image {
@@ -108,11 +164,51 @@
   }
 
   .filter-button {
-    @apply px-4 py-2 rounded-full border border-border bg-background hover:bg-accent hover:text-accent-foreground transition-colors duration-200;
+    @apply px-4 py-2 rounded-full border border-border bg-background hover:bg-accent hover:text-accent-foreground transition-colors duration-200 relative overflow-hidden;
+  }
+
+  .filter-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, hsl(var(--golden) / 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .filter-button:hover::before {
+    left: 100%;
   }
 
   .filter-button.active {
     @apply bg-primary text-primary-foreground border-primary;
+  }
+
+  .header-moroccan {
+    background: linear-gradient(135deg, 
+      hsl(var(--background)) 0%, 
+      hsl(var(--warm-sand) / 0.1) 50%, 
+      hsl(var(--background)) 100%
+    );
+    position: relative;
+  }
+
+  .header-moroccan::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent, 
+      hsl(var(--terracotta) / 0.5), 
+      hsl(var(--golden) / 0.5), 
+      hsl(var(--deep-blue) / 0.5), 
+      transparent
+    );
   }
 }
 
@@ -138,10 +234,29 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
 .animate-fade-in {
   animation: fade-in 0.6s ease-out;
 }
 
 .animate-scale-in {
   animation: scale-in 0.3s ease-out;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(90deg, 
+    transparent, 
+    hsl(var(--golden) / 0.1), 
+    transparent
+  );
+  background-size: 1000px 100%;
 }

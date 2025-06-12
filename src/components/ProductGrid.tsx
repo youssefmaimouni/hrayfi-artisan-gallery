@@ -20,74 +20,97 @@ interface Product {
 const SAMPLE_PRODUCTS: Product[] = [
   {
     id: '1',
-    name: 'Handwoven Berber Carpet',
-    price: 299,
-    originalPrice: 399,
-    artisan: 'Fatima Al-Zahra',
-    rating: 4.8,
-    reviewCount: 127,
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
-    category: 'Textiles',
+    name: 'زليج أزرق تقليدي • Traditional Blue Zellige Tiles',
+    price: 450,
+    originalPrice: 620,
+    artisan: 'الحاج عبد اللطيف الفاسي • Haj Abdellatif El Fassi',
+    rating: 4.9,
+    reviewCount: 156,
+    image: 'https://images.unsplash.com/photo-1578895101408-1a36b834405b?w=400&h=400&fit=crop',
+    category: 'زليج • Zellige',
     isNew: true,
-    description: 'Beautiful traditional Berber carpet with authentic patterns'
+    description: 'بلاط زليج أزرق مصنوع يدوياً بالطريقة التقليدية الفاسية'
   },
   {
     id: '2',
-    name: 'Moroccan Tagine Pot',
-    price: 89,
-    artisan: 'Hassan El-Fassi',
-    rating: 4.9,
+    name: 'طاجين فخار مزخرف • Decorated Clay Tagine',
+    price: 125,
+    artisan: 'فاطمة بنت الصالة • Fatima Bent Sala',
+    rating: 4.8,
     reviewCount: 203,
     image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop',
-    category: 'Ceramics',
-    description: 'Authentic clay tagine for traditional Moroccan cooking'
+    category: 'فخار • Pottery',
+    description: 'طاجين من الفخار المحلي مزين بالنقوش التقليدية'
   },
   {
     id: '3',
-    name: 'Argan Oil Soap Set',
-    price: 45,
-    originalPrice: 65,
-    artisan: 'Aisha Benali',
-    rating: 4.7,
+    name: 'زربية بربرية أصيلة • Authentic Berber Carpet',
+    price: 890,
+    originalPrice: 1200,
+    artisan: 'عيشة أمللو • Aicha Amellal',
+    rating: 4.9,
     reviewCount: 89,
-    image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop',
-    category: 'Beauty',
-    description: 'Handmade soaps with pure argan oil from Essaouira'
+    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
+    category: 'زرابي • Carpets',
+    description: 'زربية منسوجة يدوياً بالصوف الطبيعي والألوان التقليدية'
   },
   {
     id: '4',
-    name: 'Silver Filigree Jewelry Box',
-    price: 156,
-    artisan: 'Mohammed Tazi',
-    rating: 4.6,
-    reviewCount: 54,
+    name: 'صندوق مطعم بالفضة • Silver Inlaid Jewelry Box',
+    price: 340,
+    artisan: 'محمد التازي • Mohammed Tazi',
+    rating: 4.7,
+    reviewCount: 124,
     image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop',
-    category: 'Jewelry',
-    description: 'Intricate silver work in traditional Moroccan style'
+    category: 'معادن • Metalwork',
+    description: 'صندوق خشبي مطعم بالفضة بنقوش إسلامية تقليدية'
   },
   {
     id: '5',
-    name: 'Leather Babouche Slippers',
-    price: 67,
-    artisan: 'Youssef Alami',
-    rating: 4.5,
+    name: 'بلغة جلدية ملونة • Colorful Leather Babouches',
+    price: 95,
+    artisan: 'يوسف العلمي • Youssef Alami',
+    rating: 4.6,
     reviewCount: 198,
     image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop',
-    category: 'Leather',
+    category: 'جلود • Leather',
     isNew: true,
-    description: 'Handcrafted traditional Moroccan leather slippers'
+    description: 'بلغة تقليدية من الجلد الطبيعي مصبوغة بالألوان الطبيعية'
   },
   {
     id: '6',
-    name: 'Mosaic Mirror Frame',
-    price: 134,
-    originalPrice: 180,
-    artisan: 'Latifa Benjelloun',
+    name: 'مرآة زليج موزاييك • Zellige Mosaic Mirror',
+    price: 280,
+    originalPrice: 380,
+    artisan: 'لطيفة بنجلون • Latifa Benjelloun',
     rating: 4.8,
     reviewCount: 76,
     image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop',
-    category: 'Decorative',
-    description: 'Beautiful zellige mosaic work on wooden frame'
+    category: 'زليج • Zellige',
+    description: 'مرآة مؤطرة بالزليج الملون بنقوش هندسية تقليدية'
+  },
+  {
+    id: '7',
+    name: 'قاروب فخار أمازيغي • Amazigh Clay Jar',
+    price: 165,
+    artisan: 'حدو أوعسو • Haddou Ouassou',
+    rating: 4.7,
+    reviewCount: 92,
+    image: 'https://images.unsplash.com/photo-1578316342292-9e2be3c6c3c8?w=400&h=400&fit=crop',
+    category: 'فخار • Pottery',
+    description: 'جرة فخارية تقليدية بنقوش أمازيغية أصيلة'
+  },
+  {
+    id: '8',
+    name: 'خنجر مغربي مزخرف • Decorated Moroccan Dagger',
+    price: 520,
+    artisan: 'عبد الرحمن الصفار • Abderrahman Saffar',
+    rating: 4.9,
+    reviewCount: 43,
+    image: 'https://images.unsplash.com/photo-1565108808-9d2dc7fc8f35?w=400&h=400&fit=crop',
+    category: 'معادن • Metalwork',
+    isNew: true,
+    description: 'خنجر تقليدي بمقبض منحوت ونصل مزين بالكتابة العربية'
   }
 ];
 
@@ -128,13 +151,18 @@ const ProductGrid = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-serif font-bold mb-2">
-          Artisan Marketplace
-        </h1>
-        <p className="text-muted-foreground">
-          Discover authentic Moroccan crafts made by skilled artisans
-        </p>
+      <div className="mb-8 text-center">
+        <div className="inline-block p-6 rounded-lg moroccan-pattern bg-gradient-to-r from-warm-sand/20 to-golden/20 mb-4">
+          <h1 className="text-4xl font-serif font-bold mb-3 bg-gradient-to-r from-terracotta via-golden to-deep-blue bg-clip-text text-transparent">
+            سوق الحرفيين • Artisan Marketplace
+          </h1>
+          <p className="text-muted-foreground text-lg">
+            اكتشف الحرف المغربية الأصيلة من صنع حرفيين ماهرين
+          </p>
+          <p className="text-muted-foreground">
+            Discover authentic Moroccan crafts made by skilled artisans
+          </p>
+        </div>
       </div>
 
       {/* Filters */}
@@ -151,7 +179,7 @@ const ProductGrid = () => {
       {/* Results Count */}
       <div className="mb-6">
         <p className="text-sm text-muted-foreground">
-          Showing {filteredProducts.length} of {products.length} products
+          عرض {filteredProducts.length} من {products.length} منتج • Showing {filteredProducts.length} of {products.length} products
         </p>
       </div>
 
@@ -169,19 +197,21 @@ const ProductGrid = () => {
       {/* No Results */}
       {filteredProducts.length === 0 && (
         <div className="text-center py-12">
-          <h3 className="text-lg font-medium mb-2">No products found</h3>
-          <p className="text-muted-foreground mb-4">
-            Try adjusting your filters or search terms
-          </p>
-          <button
-            onClick={() => {
-              setSelectedCategories([]);
-              setPriceRange([0, 1000]);
-            }}
-            className="text-primary hover:underline"
-          >
-            Clear all filters
-          </button>
+          <div className="inline-block p-6 rounded-lg bg-muted/50">
+            <h3 className="text-lg font-medium mb-2">لم يتم العثور على منتجات • No products found</h3>
+            <p className="text-muted-foreground mb-4">
+              جرب تعديل المرشحات أو مصطلحات البحث • Try adjusting your filters or search terms
+            </p>
+            <button
+              onClick={() => {
+                setSelectedCategories([]);
+                setPriceRange([0, 1000]);
+              }}
+              className="text-primary hover:underline bg-gradient-to-r from-terracotta to-golden bg-clip-text text-transparent font-semibold"
+            >
+              مسح جميع المرشحات • Clear all filters
+            </button>
+          </div>
         </div>
       )}
     </div>
