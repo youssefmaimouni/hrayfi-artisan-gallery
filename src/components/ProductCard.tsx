@@ -52,18 +52,15 @@ const ProductCard = ({
           className="product-image w-full h-64 object-cover transition-transform duration-300"
         />
         
-        {/* Moroccan decorative overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {isNew && (
-            <Badge className="bg-gradient-to-r from-terracotta to-golden text-white font-semibold">
-              جديد • New
+            <Badge className="bg-accent text-accent-foreground">
+              New
             </Badge>
           )}
           {discount > 0 && (
-            <Badge className="bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold">
+            <Badge className="bg-destructive text-destructive-foreground">
               -{discount}%
             </Badge>
           )}
@@ -73,38 +70,35 @@ const ProductCard = ({
         <Button
           variant="ghost"
           size="icon"
-          className="absolute top-3 right-3 bg-background/90 hover:bg-background backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
+          className="absolute top-3 right-3 bg-background/80 hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           onClick={(e) => {
             e.stopPropagation();
             // Handle favorite toggle
           }}
           aria-label={`Add ${name} to favorites`}
         >
-          <Heart className="w-4 h-4 text-red-500" />
+          <Heart className="w-4 h-4" />
         </Button>
 
         {/* Category */}
         <div className="absolute bottom-3 left-3">
-          <Badge variant="secondary" className="text-xs bg-background/90 backdrop-blur-sm text-foreground">
+          <Badge variant="secondary" className="text-xs">
             {category}
           </Badge>
         </div>
       </div>
 
-      <div className="p-4 relative">
-        {/* Subtle pattern overlay */}
-        <div className="absolute inset-0 opacity-5 moroccan-pattern pointer-events-none"></div>
-        
-        <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors duration-300 relative z-10">
+      <div className="p-4">
+        <h3 className="font-semibold text-lg mb-1 line-clamp-2 group-hover:text-primary transition-colors">
           {name}
         </h3>
         
-        <p className="text-sm text-muted-foreground mb-3 relative z-10">
-          بواسطة {artisan} • by {artisan}
+        <p className="text-sm text-muted-foreground mb-2">
+          by {artisan}
         </p>
 
         {/* Rating */}
-        <div className="flex items-center gap-1 mb-3 relative z-10">
+        <div className="flex items-center gap-1 mb-3">
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
               <Star
@@ -125,8 +119,8 @@ const ProductCard = ({
         </div>
 
         {/* Price */}
-        <div className="flex items-center gap-2 relative z-10">
-          <span className="text-xl font-bold bg-gradient-to-r from-terracotta to-golden bg-clip-text text-transparent">
+        <div className="flex items-center gap-2">
+          <span className="text-xl font-bold text-primary">
             ${price}
           </span>
           {originalPrice && (
@@ -134,11 +128,6 @@ const ProductCard = ({
               ${originalPrice}
             </span>
           )}
-        </div>
-
-        {/* Decorative element */}
-        <div className="absolute bottom-0 right-0 w-16 h-16 opacity-5">
-          <div className="w-full h-full bg-gradient-to-tl from-terracotta via-golden to-transparent rounded-tl-full"></div>
         </div>
       </div>
     </div>

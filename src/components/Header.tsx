@@ -10,22 +10,17 @@ const Header = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-md border-b border-border header-moroccan">
+    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-terracotta via-golden to-deep-blue rounded-lg flex items-center justify-center">
-              <div className="w-4 h-4 bg-background rounded-sm"></div>
-            </div>
-            <div>
-              <h1 className="text-2xl font-serif font-bold bg-gradient-to-r from-terracotta via-golden to-deep-blue bg-clip-text text-transparent">
-                حرفي Hrayfi
-              </h1>
-              <span className="text-xs text-muted-foreground hidden sm:block">
-                الحرف المغربية الأصيلة • Authentic Moroccan Crafts
-              </span>
-            </div>
+          <div className="flex items-center space-x-2">
+            <h1 className="text-2xl font-serif font-bold text-primary">
+              Hrayfi
+            </h1>
+            <span className="text-sm text-muted-foreground hidden sm:block">
+              Authentic Moroccan Crafts
+            </span>
           </div>
 
           {/* Search Bar - Desktop */}
@@ -33,11 +28,10 @@ const Header = () => {
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="ابحث عن منتجات حرفية... Search for artisan products..."
-                className="pl-10 pr-4 bg-background/50 border-border/50 focus:border-primary/50"
+                placeholder="Search for artisan products..."
+                className="pl-10 pr-4"
                 aria-label="Search products"
               />
-              <div className="absolute inset-0 rounded-md bg-gradient-to-r from-terracotta/10 via-transparent to-golden/10 pointer-events-none"></div>
             </div>
           </div>
 
@@ -47,29 +41,18 @@ const Header = () => {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="hover:bg-accent/50 transition-colors duration-300"
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </Button>
 
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="hover:bg-accent/50 transition-colors duration-300"
-              aria-label="Favorites"
-            >
+            <Button variant="ghost" size="icon" aria-label="Favorites">
               <Heart className="w-5 h-5" />
             </Button>
 
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="hover:bg-accent/50 transition-colors duration-300 relative"
-              aria-label="Shopping bag"
-            >
+            <Button variant="ghost" size="icon" aria-label="Shopping bag">
               <ShoppingBag className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 bg-gradient-to-r from-terracotta to-golden text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 3
               </span>
             </Button>
@@ -77,7 +60,7 @@ const Header = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden hover:bg-accent/50 transition-colors duration-300"
+              className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -91,8 +74,8 @@ const Header = () => {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
-              placeholder="ابحث عن منتجات حرفية..."
-              className="pl-10 pr-4 bg-background/50 border-border/50"
+              placeholder="Search for artisan products..."
+              className="pl-10 pr-4"
               aria-label="Search products"
             />
           </div>
@@ -100,19 +83,19 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <nav className="md:hidden mt-4 pb-4 border-t border-border pt-4 moroccan-pattern">
+          <nav className="md:hidden mt-4 pb-4 border-t border-border pt-4">
             <div className="flex flex-col space-y-2">
-              <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-2 rounded hover:bg-accent/20">
-                الفئات • Categories
+              <a href="#" className="text-foreground hover:text-primary transition-colors py-2">
+                Categories
               </a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-2 rounded hover:bg-accent/20">
-                الحرفيون • Artisans
+              <a href="#" className="text-foreground hover:text-primary transition-colors py-2">
+                Artisans
               </a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-2 rounded hover:bg-accent/20">
-                حولنا • About
+              <a href="#" className="text-foreground hover:text-primary transition-colors py-2">
+                About
               </a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors py-2 px-2 rounded hover:bg-accent/20">
-                اتصل بنا • Contact
+              <a href="#" className="text-foreground hover:text-primary transition-colors py-2">
+                Contact
               </a>
             </div>
           </nav>
