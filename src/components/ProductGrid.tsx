@@ -1,5 +1,5 @@
-
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';
 
@@ -147,6 +147,7 @@ const SAMPLE_PRODUCTS: Product[] = [
 ];
 
 const ProductGrid = () => {
+  const navigate = useNavigate();
   const [products] = useState<Product[]>(SAMPLE_PRODUCTS);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
@@ -178,7 +179,7 @@ const ProductGrid = () => {
   const handleProductClick = (product: Product) => {
     console.log('Product clicked:', product.name);
     console.log('Product details:', product);
-    // Navigate to product detail page
+    navigate(`/product/${product.id}`);
   };
 
   return (
