@@ -1,6 +1,7 @@
 
 import Header from '@/components/Header';
 import ProductGrid from '@/components/ProductGrid';
+import Chatbot from '@/components/Chatbot';
 
 const Index = () => {
   return (
@@ -9,6 +10,7 @@ const Index = () => {
       <main>
         <ProductGrid />
       </main>
+      <Chatbot />
     </div>
   );
 };
