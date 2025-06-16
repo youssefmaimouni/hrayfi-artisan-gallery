@@ -44,12 +44,12 @@ const SAMPLE_PRODUCTS: Product[] = [
     tags: ['handmade', 'eco-friendly', 'Amazigh'],
     rating: 4.8,
     reviewCount: 127,
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
+    image: 'https://www.cmconjoncture.com/uploads/posts/64c295fa9580a_1690473978.png',
     isNew: true
   },
   {
     id: '2',
-    name: 'Tamegroute Green Pottery',
+    name: 'balgha',
     price: 89,
     description: 'Authentic pottery from Tamegroute with distinctive green glaze made from copper and local minerals.',
     histoire: 'Tamegroute pottery has been produced since the 1500s by descendants of a religious brotherhood. It was shaped using traditional wooden wheels and fired in earth kilns. Its unique glaze was developed using copper mined in the local mountains.',
@@ -64,7 +64,7 @@ const SAMPLE_PRODUCTS: Product[] = [
     tags: ['traditional', 'authentic', 'spiritual'],
     rating: 4.9,
     reviewCount: 203,
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop'
+    image: 'https://latribunedemarrakech.com/wp-content/uploads/2019/02/artisanat-maroc.jpg'
   },
   {
     id: '3',
@@ -84,11 +84,11 @@ const SAMPLE_PRODUCTS: Product[] = [
     tags: ['geometric', 'islamic-art', 'luxury'],
     rating: 4.7,
     reviewCount: 89,
-    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=400&fit=crop'
+    image: 'https://www.maroc-promotion.com/upload/artisanat-marocain-1615805580-37357.jpg'
   },
   {
     id: '4',
-    name: 'Beni Ourain Carpet',
+    name: 'fekhar',
     price: 445,
     description: 'Pure wool carpet from the Beni Ourain tribe featuring traditional black diamond patterns on cream background.',
     histoire: 'These carpets have been woven by Berber tribes in the Middle Atlas for centuries. Originally made for the harsh mountain winters, each carpet represents the weaver\'s personal story and tribal identity through its unique patterns.',
@@ -103,12 +103,12 @@ const SAMPLE_PRODUCTS: Product[] = [
     tags: ['tribal', 'luxury', 'authentic'],
     rating: 4.9,
     reviewCount: 156,
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop',
+    image: 'https://www.voyage-maroc.com/cdn/ma-public/ceramique_maroc-MAX-w1000h600.jpg',
     isNew: true
   },
   {
     id: '5',
-    name: 'Argan Oil Beauty Set',
+    name: 'zarbia',
     price: 67,
     description: 'Pure argan oil and handmade soap set from women\'s cooperatives in Essaouira region.',
     histoire: 'For centuries, Berber women have extracted argan oil from the kernels of the argan tree. This liquid gold is produced exclusively by women\'s cooperatives, providing economic independence and preserving traditional knowledge.',
@@ -123,11 +123,11 @@ const SAMPLE_PRODUCTS: Product[] = [
     tags: ['organic', 'fair-trade', 'women-made'],
     rating: 4.6,
     reviewCount: 234,
-    image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop'
+    image: 'https://aujourdhui.ma/wp-content/uploads/2017/12/Artisanat-Tapis.jpg'
   },
   {
     id: '6',
-    name: 'Fez Leather Babouches',
+    name: 'biban&zellije',
     price: 78,
     description: 'Traditional pointed leather slippers handcrafted in the ancient tanneries of Fez.',
     histoire: 'The art of leather working in Fez dates back over 1000 years. These babouches are made in the famous Chouara Tannery using techniques unchanged since medieval times. The leather is dyed using natural pigments like saffron and mint.',
@@ -142,7 +142,7 @@ const SAMPLE_PRODUCTS: Product[] = [
     tags: ['traditional', 'luxury', 'heritage'],
     rating: 4.5,
     reviewCount: 198,
-    image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop'
+    image: 'https://www.lavieeco.com/wp-content/uploads/2023/07/Zellije.jpg'
   }
 ];
 

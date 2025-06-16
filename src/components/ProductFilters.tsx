@@ -169,7 +169,7 @@ const ProductFilters = ({
       </div>
 
       {/* Desktop Price Range */}
-      <div className="hidden lg:block mt-4">
+      {/* <div className="hidden lg:block mt-4">
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium">Price Range:</span>
           <div className="flex-1 max-w-xs">
@@ -187,7 +187,7 @@ const ProductFilters = ({
             ${priceRange[0]} - ${priceRange[1]}
           </span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

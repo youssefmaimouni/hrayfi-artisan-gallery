@@ -47,12 +47,12 @@ const SAMPLE_PRODUCTS: Product[] = [
     tags: ['handmade', 'eco-friendly', 'Amazigh'],
     rating: 4.8,
     reviewCount: 127,
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop',
+    image: 'https://www.cmconjoncture.com/uploads/posts/64c295fa9580a_1690473978.png',
     isNew: true
   },
   {
     id: '2',
-    name: 'Tamegroute Green Pottery',
+    name: 'balgha',
     price: 89,
     description: 'Authentic pottery from Tamegroute with distinctive green glaze made from copper and local minerals.',
     histoire: 'Tamegroute pottery has been produced since the 1500s by descendants of a religious brotherhood. It was shaped using traditional wooden wheels and fired in earth kilns. Its unique glaze was developed using copper mined in the local mountains.',
@@ -67,7 +67,7 @@ const SAMPLE_PRODUCTS: Product[] = [
     tags: ['traditional', 'authentic', 'spiritual'],
     rating: 4.9,
     reviewCount: 203,
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop'
+    image: 'https://latribunedemarrakech.com/wp-content/uploads/2019/02/artisanat-maroc.jpg'
   },
   {
     id: '3',
@@ -87,7 +87,65 @@ const SAMPLE_PRODUCTS: Product[] = [
     tags: ['geometric', 'islamic-art', 'luxury'],
     rating: 4.7,
     reviewCount: 89,
-    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop'
+    image: 'https://www.maroc-promotion.com/upload/artisanat-marocain-1615805580-37357.jpg'
+  },
+  {
+    id: '4',
+    name: 'fekhar',
+    price: 445,
+    description: 'Pure wool carpet from the Beni Ourain tribe featuring traditional black diamond patterns on cream background.',
+    histoire: 'These carpets have been woven by Berber tribes in the Middle Atlas for centuries. Originally made for the harsh mountain winters, each carpet represents the weaver\'s personal story and tribal identity through its unique patterns.',
+    category: 'Rugs & Textiles',
+    subcategory: 'Beni Ourain',
+    materials: ['Pure sheep wool'],
+    techniques: ['Traditional loom weaving'],
+    artisan: 'Fatima Beni Ourain',
+    region: 'Middle Atlas',
+    cultural_significance: 'Diamond patterns ward off evil and bring good fortune',
+    languages: ['Berber', 'Arabic'],
+    tags: ['tribal', 'luxury', 'authentic'],
+    rating: 4.9,
+    reviewCount: 156,
+    image: 'https://www.voyage-maroc.com/cdn/ma-public/ceramique_maroc-MAX-w1000h600.jpg',
+    isNew: true
+  },
+  {
+    id: '5',
+    name: 'zarbia',
+    price: 67,
+    description: 'A flat-woven Kilim rug perfect for layering or lightweight decor. Durable and reversible, it’s ideal for high-traffic areas like hallways and kitchens. Earthy tones with tribal motifs bring character and Moroccan charm to any home.',
+    histoire: 'For centuries, Berber women have extracted argan oil from the kernels of the argan tree. This liquid gold is produced exclusively by women\'s cooperatives, providing economic independence and preserving traditional knowledge.',
+    category: 'Beauty & Wellness',
+    subcategory: 'Argan Products',
+    materials: ['Pure argan oil', 'Natural soap base', 'Essential oils'],
+    techniques: ['Traditional extraction', 'Hand pressing', 'Cold process soap making'],
+    artisan: 'Coopérative Amal Essaouira',
+    region: 'Essaouira',
+    cultural_significance: 'Argan tree is sacred to Berber culture, symbol of life and resilience',
+    languages: ['Berber', 'Arabic', 'French'],
+    tags: ['organic', 'fair-trade', 'women-made'],
+    rating: 4.6,
+    reviewCount: 234,
+    image: 'https://aujourdhui.ma/wp-content/uploads/2017/12/Artisanat-Tapis.jpg'
+  },
+  {
+    id: '6',
+    name: 'biban&zellije',
+    price: 78,
+    description: 'Traditional pointed leather slippers handcrafted in the ancient tanneries of Fez.',
+    histoire: 'The art of leather working in Fez dates back over 1000 years. These babouches are made in the famous Chouara Tannery using techniques unchanged since medieval times. The leather is dyed using natural pigments like saffron and mint.',
+    category: 'Fashion & Accessories',
+    subcategory: 'Footwear',
+    materials: ['Natural leather', 'Vegetable dyes', 'Traditional thread'],
+    techniques: ['Traditional tanning', 'Hand stitching', 'Natural dyeing'],
+    artisan: 'Atelier Cuir Fès',
+    region: 'Fès-Meknès',
+    cultural_significance: 'Yellow babouches traditionally worn by scholars and nobility',
+    languages: ['Arabic', 'French'],
+    tags: ['traditional', 'luxury', 'heritage'],
+    rating: 4.5,
+    reviewCount: 198,
+    image: 'https://www.lavieeco.com/wp-content/uploads/2023/07/Zellije.jpg'
   }
 ];
 
