@@ -33,11 +33,11 @@ const ArtisanDashboard = () => {
 
   useEffect(() => {
     // Check if user is authenticated
-    const isAuthenticated = localStorage.getItem('isAuthenticated');
-    if (!isAuthenticated) {
-      navigate('/login');
-      return;
-    }
+    // const isAuthenticated = localStorage.getItem('isAuthenticated');
+    // if (!isAuthenticated) {
+    //   navigate('/login');
+    //   return;
+    // }
 
     // Load artisan's products (mock data for demo)
     const mockProducts: Product[] = [
