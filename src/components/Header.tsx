@@ -1,9 +1,10 @@
 
 import { useState } from 'react';
-import { Search, Heart, ShoppingBag, Menu, Moon, Sun } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, Moon, Sun, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTheme } from '@/hooks/useTheme';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,14 +15,14 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2">
             <h1 className="text-2xl font-serif font-bold text-primary">
               Hrayfi
             </h1>
             <span className="text-sm text-muted-foreground hidden sm:block">
               Authentic Moroccan Crafts
             </span>
-          </div>
+          </Link>
 
           {/* Search Bar - Desktop */}
           <div className="hidden md:flex flex-1 max-w-xl mx-8">
@@ -50,12 +51,11 @@ const Header = () => {
               <Heart className="w-5 h-5" />
             </Button>
 
-            {/* <Button variant="ghost" size="icon" aria-label="Shopping bag">
-              <ShoppingBag className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                3
-              </span>
-            </Button> */}
+            <Link to="/login">
+              <Button variant="ghost" size="icon" aria-label="Artisan Login">
+                <LogIn className="w-5 h-5" />
+              </Button>
+            </Link>
 
             <Button
               variant="ghost"
@@ -97,6 +97,9 @@ const Header = () => {
               <a href="#" className="text-foreground hover:text-primary transition-colors py-2">
                 Contact
               </a>
+              <Link to="/login" className="text-foreground hover:text-primary transition-colors py-2">
+                Artisan Login
+              </Link>
             </div>
           </nav>
         )}
