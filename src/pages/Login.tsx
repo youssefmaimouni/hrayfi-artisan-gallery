@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -98,9 +98,9 @@ const Login = () => {
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
               Don't have an account?{' '}
-              <a href="#" className="text-primary hover:underline">
-                Contact us to join
-              </a>
+              <Link to="/register" className="text-primary hover:underline">
+                Register as artisan
+              </Link>
             </p>
           </div>
         </CardContent>
