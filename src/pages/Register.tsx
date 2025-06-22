@@ -50,13 +50,13 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-warm-sand to-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen gradient-bg moroccan-pattern flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-xl border-teal/20">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <h1 className="text-3xl font-serif font-bold text-primary">Hrayfi</h1>
+            <h1 className="text-3xl font-serif font-bold bg-gradient-to-r from-terracotta to-teal bg-clip-text text-transparent">Hraifia</h1>
           </div>
-          <CardTitle className="text-2xl">Join as Artisan</CardTitle>
+          <CardTitle className="text-2xl text-terracotta">Join as Artisan</CardTitle>
           <p className="text-muted-foreground">
             Create your account to showcase your authentic Moroccan crafts
           </p>
@@ -73,6 +73,7 @@ const Register = () => {
                 placeholder="Your full name"
                 value={formData.name}
                 onChange={handleInputChange}
+                className="border-teal/30 focus:border-teal focus:ring-teal/20"
                 required
               />
             </div>
@@ -86,6 +87,7 @@ const Register = () => {
                 placeholder="your@email.com"
                 value={formData.email}
                 onChange={handleInputChange}
+                className="border-teal/30 focus:border-teal focus:ring-teal/20"
                 required
               />
             </div>
@@ -99,6 +101,7 @@ const Register = () => {
                 placeholder="e.g., Fez, Marrakech, Azilal"
                 value={formData.region}
                 onChange={handleInputChange}
+                className="border-teal/30 focus:border-teal focus:ring-teal/20"
                 required
               />
             </div>
@@ -112,6 +115,7 @@ const Register = () => {
                 placeholder="e.g., Pottery, Weaving, Metalwork"
                 value={formData.craft}
                 onChange={handleInputChange}
+                className="border-teal/30 focus:border-teal focus:ring-teal/20"
                 required
               />
             </div>
@@ -126,13 +130,14 @@ const Register = () => {
                   placeholder="Create a password"
                   value={formData.password}
                   onChange={handleInputChange}
+                  className="border-teal/30 focus:border-teal focus:ring-teal/20"
                   required
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 hover:bg-teal/10"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -150,13 +155,14 @@ const Register = () => {
                   placeholder="Confirm your password"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
+                  className="border-teal/30 focus:border-teal focus:ring-teal/20"
                   required
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 hover:bg-teal/10"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -166,7 +172,7 @@ const Register = () => {
             
             <Button
               type="submit"
-              className="w-full"
+              className="w-full bg-gradient-to-r from-terracotta to-teal hover:from-terracotta/90 hover:to-teal/90 text-white"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -183,7 +189,7 @@ const Register = () => {
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
               Already have an account?{' '}
-              <Link to="/login" className="text-primary hover:underline">
+              <Link to="/login" className="text-teal hover:text-teal/80 hover:underline font-medium">
                 Sign in here
               </Link>
             </p>

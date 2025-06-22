@@ -1,9 +1,8 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Moroccan-inspired design system */
+/* Moroccan-inspired design system - Updated with new color palette */
 
 @layer base {
   :root {
@@ -16,7 +15,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 14 88% 45%;
+    --primary: 18 85% 52%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -25,24 +24,27 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 39 84% 56%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 184 65% 45%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 14 88% 45%;
+    --ring: 18 85% 52%;
 
     --radius: 0.5rem;
 
-    /* Custom Moroccan colors */
-    --terracotta: 14 88% 45%;
-    --deep-blue: 217 91% 24%;
+    /* Updated Moroccan colors from the image */
+    --terracotta: 18 85% 52%;
+    --deep-blue: 210 85% 35%;
+    --teal: 184 65% 45%;
     --golden: 39 84% 56%;
-    --warm-sand: 39 77% 83%;
+    --warm-sand: 39 77% 88%;
     --clay: 16 65% 35%;
+    --sage-green: 152 35% 55%;
+    --coral: 15 75% 58%;
   }
 
   .dark {
@@ -55,7 +57,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 14 88% 55%;
+    --primary: 18 85% 62%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -64,7 +66,7 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 39 84% 66%;
+    --accent: 184 65% 55%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 62.8% 30.6%;
@@ -72,14 +74,17 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 14 88% 55%;
+    --ring: 18 85% 62%;
 
-    /* Dark mode Moroccan colors */
-    --terracotta: 14 88% 55%;
-    --deep-blue: 217 91% 34%;
+    /* Dark mode colors */
+    --terracotta: 18 85% 62%;
+    --deep-blue: 210 85% 45%;
+    --teal: 184 65% 55%;
     --golden: 39 84% 66%;
     --warm-sand: 39 47% 23%;
     --clay: 16 45% 45%;
+    --sage-green: 152 35% 65%;
+    --coral: 15 75% 68%;
   }
 }
 
@@ -100,7 +105,7 @@
 
 @layer components {
   .product-card {
-    @apply bg-card rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-border/50;
+    @apply bg-card rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-teal/20;
   }
 
   .product-card:hover .product-image {
@@ -108,11 +113,21 @@
   }
 
   .filter-button {
-    @apply px-4 py-2 rounded-full border border-border bg-background hover:bg-accent hover:text-accent-foreground transition-colors duration-200;
+    @apply px-4 py-2 rounded-full border border-teal/30 bg-background hover:bg-teal/10 hover:text-teal hover:border-teal transition-colors duration-200;
   }
 
   .filter-button.active {
-    @apply bg-primary text-primary-foreground border-primary;
+    @apply bg-teal text-white border-teal;
+  }
+
+  .gradient-bg {
+    background: linear-gradient(135deg, hsl(var(--warm-sand)) 0%, hsl(var(--teal))/10 100%);
+  }
+
+  .moroccan-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--terracotta))/20 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--teal))/15 0%, transparent 50%);
   }
 }
 
