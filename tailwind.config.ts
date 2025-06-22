@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Moroccan color palette
+				terracotta: 'hsl(var(--terracotta))',
+				'deep-blue': 'hsl(var(--deep-blue))',
+				teal: 'hsl(var(--teal))',
+				golden: 'hsl(var(--golden))',
+				'warm-sand': 'hsl(var(--warm-sand))',
+				clay: 'hsl(var(--clay))',
+				'sage-green': 'hsl(var(--sage-green))',
+				coral: 'hsl(var(--coral))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
