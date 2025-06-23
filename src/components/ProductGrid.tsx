@@ -1,148 +1,209 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';
 
-interface Product {
-  id: string;
+interface Region {
+  id: number;
   name: string;
-  price: number;
-  originalPrice?: number;
+}
+
+interface Category {
+  id: number;
+  name: string;
+}
+
+interface Artisan {
+  id: number;
+  name: string;
+  biography: string;
+  region: Region;
+  main_image: string | null;
+}
+
+interface Product {
+  id: number;
+  name: string;
   description: string;
-  histoire: string;
-  category: string;
-  subcategory: string;
-  materials: string[];
-  techniques: string[];
-  artisan: string;
-  region: string;
+  materials: string;
+  dimensions: string;
   cultural_significance: string;
-  languages: string[];
-  tags: string[];
-  rating: number;
-  reviewCount: number;
-  image: string;
-  isNew?: boolean;
+  category: Category;
+  region: Region;
+  artisan: Artisan;
+  main_image: string | null;
+  price: string;
 }
 
 const SAMPLE_PRODUCTS: Product[] = [
   {
-    id: '1',
-    name: 'Azilal Wool Rug',
-    price: 299,
-    originalPrice: 399,
-    description: 'Handwoven rug from the Azilal region using natural wool and vegetable dyes. Features symbolic diamond motifs.',
-    histoire: 'These rugs are woven by Berber women in the Middle Atlas mountains of Morocco. Each rug tells a story through its symbols - diamonds represent protection and family bonds, passed down through generations of master weavers.',
-    category: 'Rugs & Textiles',
-    subcategory: 'Azilal',
-    materials: ['Natural wool', 'Vegetable dyes'],
-    techniques: ['Hand-knotting'],
-    artisan: 'Coop Tazwit Azilal',
-    region: 'Azilal',
-    cultural_significance: 'Diamond symbols represent protection and family',
-    languages: ['Arabic', 'French'],
-    tags: ['handmade', 'eco-friendly', 'Amazigh'],
-    rating: 4.8,
-    reviewCount: 127,
-    image: 'https://www.cmconjoncture.com/uploads/posts/64c295fa9580a_1690473978.png',
-    isNew: true
+    id: 1,
+    name: "Moroccan Zellij Tile",
+    description: "Hand-crafted glazed tile featuring traditional geometric patterns.",
+    materials: "Ceramic",
+    dimensions: "10×10 cm",
+    cultural_significance: "Traditional Islamic geometric art symbolizing infinity and unity",
+    category: {
+      id: 1,
+      name: "tiles"
+    },
+    region: {
+      id: 1,
+      name: "Fès-Meknès"
+    },
+    artisan: {
+      id: 1,
+      name: "Atelier Fassi",
+      biography: "Atelier Fassi is a famous artisan in fes",
+      region: {
+        id: 1,
+        name: "Fès-Meknès"
+      },
+      main_image: null
+    },
+    main_image: "https://www.lavieeco.com/wp-content/uploads/2023/07/Zellije.jpg",
+    price: "25.50"
   },
   {
-    id: '2',
-    name: 'balgha',
-    price: 89,
-    description: 'Authentic pottery from Tamegroute with distinctive green glaze made from copper and local minerals.',
-    histoire: 'Tamegroute pottery has been produced since the 1500s by descendants of a religious brotherhood. It was shaped using traditional wooden wheels and fired in earth kilns. Its unique glaze was developed using copper mined in the local mountains.',
-    category: 'Ceramics',
-    subcategory: 'Tamegroute',
-    materials: ['Local clay', 'Copper oxide', 'Natural minerals'],
-    techniques: ['Wheel throwing', 'Traditional firing'],
-    artisan: 'Atelier Tamegroute',
-    region: 'Drâa-Tafilalet',
-    cultural_significance: 'Green color symbolizes Islam and paradise in Moroccan culture',
-    languages: ['Arabic', 'Berber'],
-    tags: ['traditional', 'authentic', 'spiritual'],
-    rating: 4.9,
-    reviewCount: 203,
-    image: 'https://latribunedemarrakech.com/wp-content/uploads/2019/02/artisanat-maroc.jpg'
+    id: 2,
+    name: "Azilal Wool Rug",
+    description: "Handwoven rug from the Azilal region using natural wool and vegetable dyes.",
+    materials: "Natural wool, Vegetable dyes",
+    dimensions: "120×180 cm",
+    cultural_significance: "Diamond symbols represent protection and family bonds in Berber culture",
+    category: {
+      id: 2,
+      name: "rugs"
+    },
+    region: {
+      id: 2,
+      name: "Azilal"
+    },
+    artisan: {
+      id: 2,
+      name: "Coop Tazwit Azilal",
+      biography: "Women's cooperative specializing in traditional Berber weaving techniques",
+      region: {
+        id: 2,
+        name: "Azilal"
+      },
+      main_image: null
+    },
+    main_image: "https://www.cmconjoncture.com/uploads/posts/64c295fa9580a_1690473978.png",
+    price: "299.00"
   },
   {
-    id: '3',
-    name: 'Zellige Mosaic Mirror',
-    price: 156,
-    originalPrice: 210,
-    description: 'Handcrafted mirror frame decorated with traditional zellige tiles in blue and white patterns.',
-    histoire: 'Zellige is an ancient art form dating back to the 10th century. Each tile is hand-cut from clay found in Salé and glazed with natural pigments. The imperfections in each tile create the unique beauty that makes zellige so coveted.',
-    category: 'Home Decor',
-    subcategory: 'Zellige',
-    materials: ['Salé clay', 'Natural glazes', 'Cedar wood'],
-    techniques: ['Hand-cutting', 'Traditional glazing', 'Mosaic assembly'],
-    artisan: 'Maâlem Hassan Fès',
-    region: 'Fès-Meknès',
-    cultural_significance: 'Blue represents the sky and infinity in Islamic art',
-    languages: ['Arabic', 'French'],
-    tags: ['geometric', 'islamic-art', 'luxury'],
-    rating: 4.7,
-    reviewCount: 89,
-    image: 'https://www.maroc-promotion.com/upload/artisanat-marocain-1615805580-37357.jpg'
+    id: 3,
+    name: "Tamegroute Pottery",
+    description: "Authentic pottery with distinctive green glaze made from copper and local minerals.",
+    materials: "Local clay, Copper oxide, Natural minerals",
+    dimensions: "15×20 cm",
+    cultural_significance: "Green color symbolizes Islam and paradise in Moroccan culture",
+    category: {
+      id: 3,
+      name: "ceramics"
+    },
+    region: {
+      id: 3,
+      name: "Drâa-Tafilalet"
+    },
+    artisan: {
+      id: 3,
+      name: "Atelier Tamegroute",
+      biography: "Traditional pottery workshop continuing 500-year-old techniques",
+      region: {
+        id: 3,
+        name: "Drâa-Tafilalet"
+      },
+      main_image: null
+    },
+    main_image: "https://latribunedemarrakech.com/wp-content/uploads/2019/02/artisanat-maroc.jpg",
+    price: "89.00"
   },
   {
-    id: '4',
-    name: 'fekhar',
-    price: 445,
-    description: 'Pure wool carpet from the Beni Ourain tribe featuring traditional black diamond patterns on cream background.',
-    histoire: 'These carpets have been woven by Berber tribes in the Middle Atlas for centuries. Originally made for the harsh mountain winters, each carpet represents the weaver\'s personal story and tribal identity through its unique patterns.',
-    category: 'Rugs & Textiles',
-    subcategory: 'Beni Ourain',
-    materials: ['Pure sheep wool'],
-    techniques: ['Traditional loom weaving'],
-    artisan: 'Fatima Beni Ourain',
-    region: 'Middle Atlas',
-    cultural_significance: 'Diamond patterns ward off evil and bring good fortune',
-    languages: ['Berber', 'Arabic'],
-    tags: ['tribal', 'luxury', 'authentic'],
-    rating: 4.9,
-    reviewCount: 156,
-    image: 'https://www.voyage-maroc.com/cdn/ma-public/ceramique_maroc-MAX-w1000h600.jpg',
-    isNew: true
+    id: 4,
+    name: "Beni Ourain Carpet",
+    description: "Pure wool carpet featuring traditional black diamond patterns on cream background.",
+    materials: "Pure sheep wool",
+    dimensions: "200×300 cm",
+    cultural_significance: "Diamond patterns ward off evil and bring good fortune in Berber tradition",
+    category: {
+      id: 2,
+      name: "rugs"
+    },
+    region: {
+      id: 4,
+      name: "Middle Atlas"
+    },
+    artisan: {
+      id: 4,
+      name: "Fatima Beni Ourain",
+      biography: "Master weaver from the Beni Ourain tribe, preserving ancestral techniques",
+      region: {
+        id: 4,
+        name: "Middle Atlas"
+      },
+      main_image: null
+    },
+    main_image: "https://www.voyage-maroc.com/cdn/ma-public/ceramique_maroc-MAX-w1000h600.jpg",
+    price: "445.00"
   },
   {
-    id: '5',
-    name: 'zarbia',
-    price: 67,
-    description: 'Pure argan oil and handmade soap set from women\'s cooperatives in Essaouira region.',
-    histoire: 'For centuries, Berber women have extracted argan oil from the kernels of the argan tree. This liquid gold is produced exclusively by women\'s cooperatives, providing economic independence and preserving traditional knowledge.',
-    category: 'Beauty & Wellness',
-    subcategory: 'Argan Products',
-    materials: ['Pure argan oil', 'Natural soap base', 'Essential oils'],
-    techniques: ['Traditional extraction', 'Hand pressing', 'Cold process soap making'],
-    artisan: 'Coopérative Amal Essaouira',
-    region: 'Essaouira',
-    cultural_significance: 'Argan tree is sacred to Berber culture, symbol of life and resilience',
-    languages: ['Berber', 'Arabic', 'French'],
-    tags: ['organic', 'fair-trade', 'women-made'],
-    rating: 4.6,
-    reviewCount: 234,
-    image: 'https://aujourdhui.ma/wp-content/uploads/2017/12/Artisanat-Tapis.jpg'
+    id: 5,
+    name: "Kilim Rug",
+    description: "Flat-woven Kilim rug with tribal motifs, perfect for layering or lightweight decor.",
+    materials: "Cotton and wool blend",
+    dimensions: "90×150 cm",
+    cultural_significance: "Flat-weave technique represents nomadic heritage and practicality",
+    category: {
+      id: 2,
+      name: "rugs"
+    },
+    region: {
+      id: 5,
+      name: "Essaouira"
+    },
+    artisan: {
+      id: 5,
+      name: "Coopérative Amal Essaouira",
+      biography: "Women's cooperative promoting traditional crafts and economic independence",
+      region: {
+        id: 5,
+        name: "Essaouira"
+      },
+      main_image: null
+    },
+    main_image: "https://aujourdhui.ma/wp-content/uploads/2017/12/Artisanat-Tapis.jpg",
+    price: "67.00"
   },
   {
-    id: '6',
-    name: 'biban&zellije',
-    price: 78,
-    description: 'Traditional pointed leather slippers handcrafted in the ancient tanneries of Fez.',
-    histoire: 'The art of leather working in Fez dates back over 1000 years. These babouches are made in the famous Chouara Tannery using techniques unchanged since medieval times. The leather is dyed using natural pigments like saffron and mint.',
-    category: 'Fashion & Accessories',
-    subcategory: 'Footwear',
-    materials: ['Natural leather', 'Vegetable dyes', 'Traditional thread'],
-    techniques: ['Traditional tanning', 'Hand stitching', 'Natural dyeing'],
-    artisan: 'Atelier Cuir Fès',
-    region: 'Fès-Meknès',
-    cultural_significance: 'Yellow babouches traditionally worn by scholars and nobility',
-    languages: ['Arabic', 'French'],
-    tags: ['traditional', 'luxury', 'heritage'],
-    rating: 4.5,
-    reviewCount: 198,
-    image: 'https://www.lavieeco.com/wp-content/uploads/2023/07/Zellije.jpg'
+    id: 6,
+    name: "Leather Babouches",
+    description: "Traditional pointed leather slippers handcrafted in the ancient tanneries of Fez.",
+    materials: "Natural leather, Vegetable dyes",
+    dimensions: "Size 40-42 EU",
+    cultural_significance: "Yellow babouches traditionally worn by scholars and nobility",
+    category: {
+      id: 4,
+      name: "footwear"
+    },
+    region: {
+      id: 1,
+      name: "Fès-Meknès"
+    },
+    artisan: {
+      id: 6,
+      name: "Atelier Cuir Fès",
+      biography: "Traditional leather workshop using 1000-year-old tanning techniques",
+      region: {
+        id: 1,
+        name: "Fès-Meknès"
+      },
+      main_image: null
+    },
+    main_image: "https://www.maroc-promotion.com/upload/artisanat-marocain-1615805580-37357.jpg",
+    price: "78.00"
   }
 ];
 
@@ -153,26 +214,28 @@ const ProductGrid = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const [sortBy, setSortBy] = useState('popularity');
 
-  const categories = Array.from(new Set(products.map(p => p.category)));
+  const categories = Array.from(new Set(products.map(p => p.category.name)));
 
   const filteredProducts = products
     .filter(product => {
-      const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
-      const priceMatch = product.price >= priceRange[0] && product.price <= priceRange[1];
+      const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category.name);
+      const price = parseFloat(product.price);
+      const priceMatch = price >= priceRange[0] && price <= priceRange[1];
       return categoryMatch && priceMatch;
     })
     .sort((a, b) => {
+      const priceA = parseFloat(a.price);
+      const priceB = parseFloat(b.price);
+      
       switch (sortBy) {
         case 'price-low':
-          return a.price - b.price;
+          return priceA - priceB;
         case 'price-high':
-          return b.price - a.price;
-        case 'rating':
-          return b.rating - a.rating;
+          return priceB - priceA;
         case 'newest':
-          return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0);
+          return b.id - a.id;
         default:
-          return b.reviewCount - a.reviewCount;
+          return a.id - b.id;
       }
     });
 
@@ -217,16 +280,14 @@ const ProductGrid = () => {
         {filteredProducts.map((product) => (
           <ProductCard
             key={product.id}
-            id={product.id}
+            id={product.id.toString()}
             name={product.name}
-            price={product.price}
-            originalPrice={product.originalPrice}
-            artisan={product.artisan}
-            rating={product.rating}
-            reviewCount={product.reviewCount}
-            image={product.image}
-            category={product.category}
-            isNew={product.isNew}
+            price={parseFloat(product.price)}
+            artisan={product.artisan.name}
+            rating={4.5}
+            reviewCount={Math.floor(Math.random() * 200) + 50}
+            image={product.main_image || '/placeholder.svg'}
+            category={product.category.name}
             onClick={() => handleProductClick(product)}
           />
         ))}
