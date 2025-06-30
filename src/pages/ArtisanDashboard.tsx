@@ -90,35 +90,35 @@ const ArtisanPage = () => {
     setIsFormOpen(true);
   };
 
- const handleDeleteProduct = async (productId: number) => {
-  const confirmDelete = window.confirm("Are you sure you want to delete this product?");
-  if (!confirmDelete) return;
+  const handleDeleteProduct = async (productId: number) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    if (!confirmDelete) return;
 
-  try {
-    const res = await fetch(`http://127.0.0.1:8000/api/products/${productId}/`, {
-      method: "DELETE",
-    });
+    try {
+      const res = await fetch(`http://127.0.0.1:8000/api/products/${productId}/`, {
+        method: "DELETE",
+      });
 
-    if (res.ok) {
-      setProducts((prev) => prev.filter((p) => p.id !== productId));
-    } else {
-      const err = await res.json();
-      console.error("Delete error:", err);
-      alert(err.detail || "Failed to delete product");
+      if (res.ok) {
+        setProducts((prev) => prev.filter((p) => p.id !== productId));
+      } else {
+        const err = await res.json();
+        console.error("Delete error:", err);
+        alert(err.detail || "Failed to delete product");
+      }
+    } catch (error) {
+      console.error("Delete request failed:", error);
+      alert("An error occurred while deleting the product.");
     }
-  } catch (error) {
-    console.error("Delete request failed:", error);
-    alert("An error occurred while deleting the product.");
-  }
-};
-
+  };
 
   const handleSaveProduct = (savedProduct: Product) => {
     // Implement your save logic here, then refresh or update products state
     setIsFormOpen(false);
     setEditingProduct(null);
   };
- const handleSave = (savedProduct: Product) => {
+
+  const handleSave = (savedProduct: Product) => {
     setProducts((prev) => {
       const existingIndex = prev.findIndex((p) => p.id === savedProduct.id);
       if (existingIndex !== -1) {
@@ -132,6 +132,12 @@ const ArtisanPage = () => {
     setEditingProduct(null);
     setIsFormOpen(false);
   };
+
+  const handleAddProduct = () => {
+    setEditingProduct(null);
+    setIsFormOpen(true);
+  };
+
   if (loadingArtisan || loadingProducts) {
     return <div className="p-8 text-center">Loading...</div>;
   }
@@ -146,23 +152,7 @@ const ArtisanPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      {/* <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-serif font-bold text-primary">{artisan.name}</h1>
-              <span className="text-muted-foreground">Artisan Dashboard</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-muted-foreground">
-                Region: <strong>{artisan.region.name}</strong>
-              </span>
-            </div>
-          </div>
-        </div>
-      </header> */}
-       <Header/>
+      <Header/>
 
       <div className="container mx-auto px-4 py-8">
         {/* Stats */}
@@ -210,7 +200,7 @@ const ArtisanPage = () => {
         {/* Products Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-bold">Your Products</h2>
-          <Button onClick={() => setEditingProduct(null) || setIsFormOpen(true)}>
+          <Button onClick={handleAddProduct}>
             <Plus className="w-4 h-4 mr-2" />
             Add Product
           </Button>
@@ -278,20 +268,18 @@ const ArtisanPage = () => {
           </div>
         )}
 
-        {/* TODO: Add your ProductForm dialog here, passing isFormOpen and editingProduct */}
-      <ProductForm
-        isOpen={isFormOpen}
-        onClose={() => {
-          setIsFormOpen(false);
-          setEditingProduct(null);
-        }}
-        onSave={handleSave}
-        artisanId={id!}
-        editingProduct={editingProduct}
-      />
+        <ProductForm
+          isOpen={isFormOpen}
+          onClose={() => {
+            setIsFormOpen(false);
+            setEditingProduct(null);
+          }}
+          onSave={handleSave}
+          artisanId={id!}
+          editingProduct={editingProduct}
+        />
       </div>
     </div>
-
   );
 };
 

@@ -14,10 +14,10 @@ interface ProductFiltersProps {
   categories: string[];
   selectedCategories: string[];
   onCategoryChange: (categories: string[]) => void;
-  priceRange: [number, number];
-  onPriceChange: (range: [number, number]) => void;
-  sortBy: string;
-  onSortChange: (sort: string) => void;
+  priceRange?: [number, number];
+  onPriceChange?: (range: [number, number]) => void;
+  sortBy?: string;
+  onSortChange?: (sort: string) => void;
 }
 
 const ProductFilters = ({
@@ -63,20 +63,6 @@ const ProductFilters = ({
             </Button>
           </CollapsibleTrigger>
         </Collapsible>
-
-        {/* Sort Dropdown */}
-        {/* <select
-          value={sortBy}
-          onChange={(e) => onSortChange(e.target.value)}
-          className="px-3 py-2 border border-border rounded-md bg-background text-foreground"
-          aria-label="Sort products by"
-        >
-          <option value="popularity">Most Popular</option>
-          <option value="newest">Newest</option>
-          <option value="price-low">Price: Low to High</option>
-          <option value="price-high">Price: High to Low</option>
-          <option value="rating">Highest Rated</option>
-        </select> */}
       </div>
 
       {/* Desktop Filters */}
@@ -94,23 +80,6 @@ const ProductFilters = ({
               {category}
             </button>
           ))}
-        </div>
-
-        {/* Sort */}
-        <div className="flex items-center gap-2">
-          {/* <span className="text-sm font-medium">Sort by:</span>
-          <select
-            value={sortBy}
-            onChange={(e) => onSortChange(e.target.value)}
-            className="px-3 py-2 border border-border rounded-md bg-background text-foreground"
-            aria-label="Sort products by"
-          >
-            <option value="popularity">Most Popular</option>
-            <option value="newest">Newest</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-            <option value="rating">Highest Rated</option>
-          </select> */}
         </div>
 
         {/* Clear Filters */}
@@ -142,22 +111,6 @@ const ProductFilters = ({
               </div>
             </div>
 
-            {/* Price Range */}
-            {/* <div>
-              <h3 className="font-medium mb-2">
-                Price Range: ${priceRange[0]} - ${priceRange[1]}
-              </h3>
-              <Slider
-                value={priceRange}
-                onValueChange={(value) => onPriceChange(value as [number, number])}
-                max={1000}
-                min={0}
-                step={10}
-                className="w-full"
-                aria-label="Price range filter"
-              />
-            </div> */}
-
             {/* Clear Filters */}
             {activeFiltersCount > 0 && (
               <Button variant="outline" onClick={clearAllFilters} className="w-full">
@@ -167,27 +120,6 @@ const ProductFilters = ({
           </CollapsibleContent>
         </Collapsible>
       </div>
-
-      {/* Desktop Price Range */}
-      {/* <div className="hidden lg:block mt-4">
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium">Price Range:</span>
-          <div className="flex-1 max-w-xs">
-            <Slider
-              value={priceRange}
-              onValueChange={(value) => onPriceChange(value as [number, number])}
-              max={1000}
-              min={0}
-              step={10}
-              className="w-full"
-              aria-label="Price range filter"
-            />
-          </div>
-          <span className="text-sm text-muted-foreground">
-            ${priceRange[0]} - ${priceRange[1]}
-          </span>
-        </div>
-      </div> */}
     </div>
   );
 };

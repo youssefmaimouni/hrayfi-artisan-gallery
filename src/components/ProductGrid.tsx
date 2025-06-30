@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';
 
@@ -18,8 +19,8 @@ interface Artisan {
   id: number;
   name: string;
   biography: string;
-  region: Region | null;
-  main_image: string | null; // URL from DRF's serializer
+  region: Region;
+  main_image: string | null;
 }
 
 interface Product {
@@ -31,11 +32,10 @@ interface Product {
   cultural_significance: string;
   category: Category;
   region: Region;
-  artisan: Artisan | null;
-  main_image: string | null; // URL from DRF's serializer
-  price: string; // comes as string from Django unless cast manually
+  artisan: Artisan;
+  main_image: string | null;
+  price: string;
 }
-
 
 const ProductGrid = () => {
   const navigate = useNavigate();
@@ -49,7 +49,6 @@ const ProductGrid = () => {
     fetch('http://127.0.0.1:8000/api/products/')
       .then((res) => res.json())
       .then((data) => {
-        //console.log('Fetched products:', data.results);
         setProducts(data.results);
         setLoading(false);
       })
