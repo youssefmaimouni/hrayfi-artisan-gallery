@@ -1,14 +1,26 @@
 
 import { useState } from 'react';
-import { Search, Heart, ShoppingBag, Menu, Moon, Sun, LogIn } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, Moon, Sun, LogIn, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTheme } from '@/hooks/useTheme';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+
+  // Check if user is authenticated
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+  const handleLogout = () => {
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
+    localStorage.removeItem('artisanEmail');
+    localStorage.removeItem('isAuthenticated');
+    navigate('/');
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
@@ -35,12 +47,24 @@ const Header = () => {
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
 
-            <Link to="/login">
-              <Button variant="ghost" size="sm" className="hover:bg-accent">
-                <LogIn className="w-4 h-4 mr-2" />
-                Login
+            {isAuthenticated ? (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="hover:bg-accent"
+                onClick={handleLogout}
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
               </Button>
-            </Link>
+            ) : (
+              <Link to="/login">
+                <Button variant="ghost" size="sm" className="hover:bg-accent">
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Login
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -68,12 +92,24 @@ const Header = () => {
                 {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               </Button>
               
-              <Link to="/login" className="block">
-                <Button variant="ghost" size="sm" className="w-full justify-start hover:bg-accent">
-                  <LogIn className="w-4 h-4 mr-2" />
-                  Artisan Login
+              {isAuthenticated ? (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="w-full justify-start hover:bg-accent"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
                 </Button>
-              </Link>
+              ) : (
+                <Link to="/login" className="block">
+                  <Button variant="ghost" size="sm" className="w-full justify-start hover:bg-accent">
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Artisan Login
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         )}
