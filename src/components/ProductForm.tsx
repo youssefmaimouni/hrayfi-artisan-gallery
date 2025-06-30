@@ -1,234 +1,210 @@
-
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  histoire: string;
-  category: string;
-  subcategory: string;
-  materials: string[];
-  techniques: string[];
-  artisan: string;
-  region: string;
-  cultural_significance: string;
-  languages: string[];
-  tags: string[];
-  price: number;
-  image: string;
-}
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 interface ProductFormProps {
-  initialData?: Product | null;
-  onSave: (product: Omit<Product, 'id'>) => void;
-  onCancel: () => void;
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (product: any) => void;
+  artisanId: string;
+  editingProduct?: any;
 }
 
-const ProductForm = ({ initialData, onSave, onCancel }: ProductFormProps) => {
+const ProductForm = ({ isOpen, onClose, onSave, artisanId, editingProduct }: ProductFormProps) => {
   const [formData, setFormData] = useState({
-    name: initialData?.name || '',
-    description: initialData?.description || '',
-    histoire: initialData?.histoire || '',
-    category: initialData?.category || '',
-    subcategory: initialData?.subcategory || '',
-    materials: initialData?.materials?.join(', ') || '',
-    techniques: initialData?.techniques?.join(', ') || '',
-    artisan: initialData?.artisan || '',
-    region: initialData?.region || '',
-    cultural_significance: initialData?.cultural_significance || '',
-    languages: initialData?.languages?.join(', ') || '',
-    tags: initialData?.tags?.join(', ') || '',
-    price: initialData?.price || 0,
-    image: initialData?.image || '/placeholder.svg'
+    name: "",
+    description: "",
+    materials: "",
+    dimensions: "",
+    cultural_significance: "",
+    category_id: "",
+    region_id: "",
+    price: "",
+    main_image: null as File | null,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const productData = {
-      ...formData,
-      materials: formData.materials.split(',').map(m => m.trim()).filter(Boolean),
-      techniques: formData.techniques.split(',').map(t => t.trim()).filter(Boolean),
-      languages: formData.languages.split(',').map(l => l.trim()).filter(Boolean),
-      tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
-    };
-    
-    onSave(productData);
+  const [categories, setCategories] = useState([]);
+  const [regions, setRegions] = useState([]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/categories/")
+      .then((res) => res.json())
+      .then((data) => setCategories(data.results || data));
+
+    fetch("http://127.0.0.1:8000/api/regions/")
+      .then((res) => res.json())
+      .then((data) => setRegions(data.results || data));
+  }, []);
+
+useEffect(() => {
+  if (!isOpen) return; // only run when dialog is open
+
+  if (editingProduct && categories.length && regions.length) {
+    // EDIT mode
+    setFormData({
+      name: editingProduct.name || "",
+      description: editingProduct.description || "",
+      materials: editingProduct.materials || "",
+      dimensions: editingProduct.dimensions || "",
+      cultural_significance: editingProduct.cultural_significance || "",
+      category_id: String(editingProduct.category?.id || editingProduct.category_id || ""),
+      region_id: String(editingProduct.region?.id || editingProduct.region_id || ""),
+      price: String(editingProduct.price || ""),
+      main_image: null,
+    });
+  } else {
+    // ADD mode — reset the form
+    setFormData({
+      name: "",
+      description: "",
+      materials: "",
+      dimensions: "",
+      cultural_significance: "",
+      category_id: "",
+      region_id: "",
+      price: "",
+      main_image: null,
+    });
+  }
+}, [editingProduct, isOpen, categories, regions]);
+
+
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleChange = (field: string, value: string | number) => {
-    setFormData(prev => ({
+  const handleFileChange = (e: any) => {
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      main_image: e.target.files?.[0] || null,
     }));
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const data = new FormData();
+
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== null && value !== "") {
+        data.append(key, value);
+      }
+    });
+
+    data.append("artisan_id", String(artisanId));
+
+    const method = editingProduct ? "PUT" : "POST";
+    const url = editingProduct
+      ? `http://127.0.0.1:8000/api/products/${editingProduct.id}/`
+      : "http://127.0.0.1:8000/api/products/";
+
+    try {
+      const res = await fetch(url, {
+        method,
+        body: data,
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        console.error("Error details:", err);
+        alert(err.detail || "Failed to save product");
+      } else {
+        const saved = await res.json();
+        onSave(saved);
+        onClose();
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong.");
+    }
+  };
+
   return (
-    <Card>
-      <CardContent className="p-6">
+    <Dialog open={isOpen} onOpenChange={onClose} >
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>{editingProduct ? "Edit Product" : "Add Product"}</DialogTitle>
+        </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Product Name</Label>
-              <Input
-                id="name"
-                value={formData.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="price">Price ($)</Label>
-              <Input
-                id="price"
-                type="number"
-                value={formData.price}
-                onChange={(e) => handleChange('price', Number(e.target.value))}
-                required
-              />
-            </div>
+          <div>
+            <Label>Name</Label>
+            <Input name="name" value={formData.name} onChange={handleChange} required />
           </div>
+          <div>
+            <Label>Description</Label>
+            <Input name="description" value={formData.description} onChange={handleChange} required />
+          </div>
+          <div>
+            <Label>Materials</Label>
+            <Input name="materials" value={formData.materials} onChange={handleChange} />
+          </div>
+          <div>
+            <Label>Dimensions</Label>
+            <Input name="dimensions" value={formData.dimensions} onChange={handleChange} />
+          </div>
+          <div>
+            <Label>Cultural Significance</Label>
+            <Input name="cultural_significance" value={formData.cultural_significance} onChange={handleChange} />
+          </div>
+          <div>
+            <Label>Category</Label>
+            <select
+              name="category_id"
+              value={formData.category_id}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+            >
+              <option value="">Select</option>
+              {categories.map((cat: any) => (
+                <option
+                  key={cat.id}
+                  value={String(cat.id)}
+                  selected={String(cat.id) === formData.category_id} // force selection
+                >
+                  {cat.name}
+                </option>
+              ))}
+            </select>
 
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => handleChange('description', e.target.value)}
-              rows={3}
-              required
-            />
           </div>
+          <div>
+            <Label>Region</Label>
+            <select
+              name="region_id"
+              value={formData.region_id}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+            >
+              <option value="">Select</option>
+              {regions.map((region: any) => (
+                <option
+                  key={region.id}
+                  value={String(region.id)}
+                  selected={String(region.id) === formData.region_id}
+                >
+                  {region.name}
+                </option>
+              ))}
+            </select>
 
-          <div className="space-y-2">
-            <Label htmlFor="histoire">Histoire (Story)</Label>
-            <Textarea
-              id="histoire"
-              value={formData.histoire}
-              onChange={(e) => handleChange('histoire', e.target.value)}
-              rows={3}
-              placeholder="Tell the story behind this product..."
-            />
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
-              <Input
-                id="category"
-                value={formData.category}
-                onChange={(e) => handleChange('category', e.target.value)}
-                placeholder="e.g., Rugs & Textiles"
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="subcategory">Subcategory</Label>
-              <Input
-                id="subcategory"
-                value={formData.subcategory}
-                onChange={(e) => handleChange('subcategory', e.target.value)}
-                placeholder="e.g., Azilal"
-              />
-            </div>
+          <div>
+            <Label>Price</Label>
+            <Input name="price" type="number" value={formData.price} onChange={handleChange} required />
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="artisan">Artisan/Cooperative</Label>
-              <Input
-                id="artisan"
-                value={formData.artisan}
-                onChange={(e) => handleChange('artisan', e.target.value)}
-                placeholder="e.g., Coop Tazwit Azilal"
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="region">Region</Label>
-              <Input
-                id="region"
-                value={formData.region}
-                onChange={(e) => handleChange('region', e.target.value)}
-                placeholder="e.g., Azilal"
-                required
-              />
-            </div>
+          <div>
+            <Label>Main Image</Label>
+            <Input type="file" accept="image/*" onChange={handleFileChange} />
           </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="materials">Materials (comma separated)</Label>
-            <Input
-              id="materials"
-              value={formData.materials}
-              onChange={(e) => handleChange('materials', e.target.value)}
-              placeholder="e.g., Natural wool, Vegetable dyes"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="techniques">Techniques (comma separated)</Label>
-            <Input
-              id="techniques"
-              value={formData.techniques}
-              onChange={(e) => handleChange('techniques', e.target.value)}
-              placeholder="e.g., Hand-knotting"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="cultural_significance">Cultural Significance</Label>
-            <Textarea
-              id="cultural_significance"
-              value={formData.cultural_significance}
-              onChange={(e) => handleChange('cultural_significance', e.target.value)}
-              rows={2}
-              placeholder="e.g., Diamond symbols represent protection and family"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="languages">Languages (comma separated)</Label>
-              <Input
-                id="languages"
-                value={formData.languages}
-                onChange={(e) => handleChange('languages', e.target.value)}
-                placeholder="e.g., Arabic, French"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="tags">Tags (comma separated)</Label>
-              <Input
-                id="tags"
-                value={formData.tags}
-                onChange={(e) => handleChange('tags', e.target.value)}
-                placeholder="e.g., handmade, eco-friendly, Amazigh"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="outline" onClick={onCancel}>
-              Cancel
-            </Button>
-            <Button type="submit">
-              {initialData ? 'Update Product' : 'Add Product'}
-            </Button>
-          </div>
+          <Button type="submit" className="w-full">
+            {editingProduct ? "Update Product" : "Create Product"}
+          </Button>
         </form>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   );
 };
 

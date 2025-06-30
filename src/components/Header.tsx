@@ -26,14 +26,14 @@ const Header = () => {
 
           {/* Search Bar - Desktop */}
           <div className="hidden md:flex flex-1 max-w-xl mx-8">
-            <div className="relative w-full">
+            {/* <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal/60 w-4 h-4" />
               <Input
                 placeholder="Search for artisan products..."
                 className="pl-10 pr-4 border-teal/30 focus:border-teal focus:ring-teal/20"
                 aria-label="Search products"
               />
-            </div>
+            </div> */}
           </div>
 
           {/* Actions */}
@@ -48,9 +48,9 @@ const Header = () => {
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </Button>
 
-            <Button variant="ghost" size="icon" className="hover:bg-teal/10 hover:text-teal" aria-label="Favorites">
+            {/* <Button variant="ghost" size="icon" className="hover:bg-teal/10 hover:text-teal" aria-label="Favorites">
               <Heart className="w-5 h-5" />
-            </Button>
+            </Button> */}
 
             <Link to="/login">
               <Button variant="ghost" size="icon" className="hover:bg-terracotta/10 hover:text-terracotta" aria-label="Artisan Login">
@@ -72,14 +72,14 @@ const Header = () => {
 
         {/* Mobile Search */}
         <div className="md:hidden mt-4">
-          <div className="relative">
+          {/* <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal/60 w-4 h-4" />
             <Input
               placeholder="Search for artisan products..."
               className="pl-10 pr-4 border-teal/30 focus:border-teal focus:ring-teal/20"
               aria-label="Search products"
             />
-          </div>
+          </div> */}
         </div>
 
         {/* Mobile Menu */}

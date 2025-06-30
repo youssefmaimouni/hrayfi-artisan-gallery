@@ -24,10 +24,10 @@ const ProductFilters = ({
   categories,
   selectedCategories,
   onCategoryChange,
-  priceRange,
-  onPriceChange,
-  sortBy,
-  onSortChange,
+  // priceRange,
+  // onPriceChange,
+  // sortBy,
+  // onSortChange,
 }: ProductFiltersProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -40,10 +40,10 @@ const ProductFilters = ({
 
   const clearAllFilters = () => {
     onCategoryChange([]);
-    onPriceChange([0, 1000]);
+    //onPriceChange([0, 1000]);
   };
 
-  const activeFiltersCount = selectedCategories.length + (priceRange[0] > 0 || priceRange[1] < 1000 ? 1 : 0);
+  const activeFiltersCount = selectedCategories.length;
 
   return (
     <div className="border-b border-border pb-4 mb-6">
@@ -65,7 +65,7 @@ const ProductFilters = ({
         </Collapsible>
 
         {/* Sort Dropdown */}
-        <select
+        {/* <select
           value={sortBy}
           onChange={(e) => onSortChange(e.target.value)}
           className="px-3 py-2 border border-border rounded-md bg-background text-foreground"
@@ -76,7 +76,7 @@ const ProductFilters = ({
           <option value="price-low">Price: Low to High</option>
           <option value="price-high">Price: High to Low</option>
           <option value="rating">Highest Rated</option>
-        </select>
+        </select> */}
       </div>
 
       {/* Desktop Filters */}
@@ -98,7 +98,7 @@ const ProductFilters = ({
 
         {/* Sort */}
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Sort by:</span>
+          {/* <span className="text-sm font-medium">Sort by:</span>
           <select
             value={sortBy}
             onChange={(e) => onSortChange(e.target.value)}
@@ -110,7 +110,7 @@ const ProductFilters = ({
             <option value="price-low">Price: Low to High</option>
             <option value="price-high">Price: High to Low</option>
             <option value="rating">Highest Rated</option>
-          </select>
+          </select> */}
         </div>
 
         {/* Clear Filters */}
@@ -143,7 +143,7 @@ const ProductFilters = ({
             </div>
 
             {/* Price Range */}
-            <div>
+            {/* <div>
               <h3 className="font-medium mb-2">
                 Price Range: ${priceRange[0]} - ${priceRange[1]}
               </h3>
@@ -156,7 +156,7 @@ const ProductFilters = ({
                 className="w-full"
                 aria-label="Price range filter"
               />
-            </div>
+            </div> */}
 
             {/* Clear Filters */}
             {activeFiltersCount > 0 && (

@@ -76,6 +76,10 @@ const Chatbot = () => {
     if (input.includes('hello') || input.includes('hi')) {
       return 'Hello! I\'m here to help you discover the beauty of Moroccan craftsmanship. Are you looking for something specific, or would you like recommendations?';
     }
+
+    if (input.includes('t7awa')) {
+      return 'sir wla ghanji n7wi mok a w9';
+    }
     
     return 'Thank you for your question! I\'d be happy to help you learn more about our authentic Moroccan crafts. You can browse our categories or ask me about specific products, artisans, or regions.';
   };
@@ -109,7 +113,7 @@ const Chatbot = () => {
             </Button>
           </CardHeader>
           
-          <CardContent className="flex-1 flex flex-col p-3">
+          <CardContent className="flex-1 flex flex-col p-3 overflow-y-auto">
             {/* Messages */}
             <ScrollArea className="flex-1 pr-3 mb-3">
               <div className="space-y-3">

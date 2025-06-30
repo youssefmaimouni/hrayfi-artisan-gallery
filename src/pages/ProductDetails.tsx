@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, Heart, ShoppingBag, MapPin, Users, Palette, Hammer } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, Star, Heart, ShoppingBag, MapPin, Palette } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,183 +38,49 @@ interface Product {
   price: string;
 }
 
-const SAMPLE_PRODUCTS: Product[] = [
-  {
-    id: 1,
-    name: "Moroccan Zellij Tile",
-    description: "Hand-crafted glazed tile featuring traditional geometric patterns.",
-    materials: "Ceramic",
-    dimensions: "10×10 cm",
-    cultural_significance: "Traditional Islamic geometric art symbolizing infinity and unity",
-    category: {
-      id: 1,
-      name: "tiles"
-    },
-    region: {
-      id: 1,
-      name: "Fès-Meknès"
-    },
-    artisan: {
-      id: 1,
-      name: "Atelier Fassi",
-      biography: "Atelier Fassi is a famous artisan in fes",
-      region: {
-        id: 1,
-        name: "Fès-Meknès"
-      },
-      main_image: null
-    },
-    main_image: "https://www.lavieeco.com/wp-content/uploads/2023/07/Zellije.jpg",
-    price: "25.50"
-  },
-  {
-    id: 2,
-    name: "Azilal Wool Rug",
-    description: "Handwoven rug from the Azilal region using natural wool and vegetable dyes.",
-    materials: "Natural wool, Vegetable dyes",
-    dimensions: "120×180 cm",
-    cultural_significance: "Diamond symbols represent protection and family bonds in Berber culture",
-    category: {
-      id: 2,
-      name: "rugs"
-    },
-    region: {
-      id: 2,
-      name: "Azilal"
-    },
-    artisan: {
-      id: 2,
-      name: "Coop Tazwit Azilal",
-      biography: "Women's cooperative specializing in traditional Berber weaving techniques",
-      region: {
-        id: 2,
-        name: "Azilal"
-      },
-      main_image: null
-    },
-    main_image: "https://www.cmconjoncture.com/uploads/posts/64c295fa9580a_1690473978.png",
-    price: "299.00"
-  },
-  {
-    id: 3,
-    name: "Tamegroute Pottery",
-    description: "Authentic pottery with distinctive green glaze made from copper and local minerals.",
-    materials: "Local clay, Copper oxide, Natural minerals",
-    dimensions: "15×20 cm",
-    cultural_significance: "Green color symbolizes Islam and paradise in Moroccan culture",
-    category: {
-      id: 3,
-      name: "ceramics"
-    },
-    region: {
-      id: 3,
-      name: "Drâa-Tafilalet"
-    },
-    artisan: {
-      id: 3,
-      name: "Atelier Tamegroute",
-      biography: "Traditional pottery workshop continuing 500-year-old techniques",
-      region: {
-        id: 3,
-        name: "Drâa-Tafilalet"
-      },
-      main_image: null
-    },
-    main_image: "https://latribunedemarrakech.com/wp-content/uploads/2019/02/artisanat-maroc.jpg",
-    price: "89.00"
-  },
-  {
-    id: 4,
-    name: "Beni Ourain Carpet",
-    description: "Pure wool carpet featuring traditional black diamond patterns on cream background.",
-    materials: "Pure sheep wool",
-    dimensions: "200×300 cm",
-    cultural_significance: "Diamond patterns ward off evil and bring good fortune in Berber tradition",
-    category: {
-      id: 2,
-      name: "rugs"
-    },
-    region: {
-      id: 4,
-      name: "Middle Atlas"
-    },
-    artisan: {
-      id: 4,
-      name: "Fatima Beni Ourain",
-      biography: "Master weaver from the Beni Ourain tribe, preserving ancestral techniques",
-      region: {
-        id: 4,
-        name: "Middle Atlas"
-      },
-      main_image: null
-    },
-    main_image: "https://www.voyage-maroc.com/cdn/ma-public/ceramique_maroc-MAX-w1000h600.jpg",
-    price: "445.00"
-  },
-  {
-    id: 5,
-    name: "Kilim Rug",
-    description: "Flat-woven Kilim rug with tribal motifs, perfect for layering or lightweight decor.",
-    materials: "Cotton and wool blend",
-    dimensions: "90×150 cm",
-    cultural_significance: "Flat-weave technique represents nomadic heritage and practicality",
-    category: {
-      id: 2,
-      name: "rugs"
-    },
-    region: {
-      id: 5,
-      name: "Essaouira"
-    },
-    artisan: {
-      id: 5,
-      name: "Coopérative Amal Essaouira",
-      biography: "Women's cooperative promoting traditional crafts and economic independence",
-      region: {
-        id: 5,
-        name: "Essaouira"
-      },
-      main_image: null
-    },
-    main_image: "https://aujourdhui.ma/wp-content/uploads/2017/12/Artisanat-Tapis.jpg",
-    price: "67.00"
-  },
-  {
-    id: 6,
-    name: "Leather Babouches",
-    description: "Traditional pointed leather slippers handcrafted in the ancient tanneries of Fez.",
-    materials: "Natural leather, Vegetable dyes",
-    dimensions: "Size 40-42 EU",
-    cultural_significance: "Yellow babouches traditionally worn by scholars and nobility",
-    category: {
-      id: 4,
-      name: "footwear"
-    },
-    region: {
-      id: 1,
-      name: "Fès-Meknès"
-    },
-    artisan: {
-      id: 6,
-      name: "Atelier Cuir Fès",
-      biography: "Traditional leather workshop using 1000-year-old tanning techniques",
-      region: {
-        id: 1,
-        name: "Fès-Meknès"
-      },
-      main_image: null
-    },
-    main_image: "https://www.maroc-promotion.com/upload/artisanat-marocain-1615805580-37357.jpg",
-    price: "78.00"
-  }
-];
-
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
-  const product = SAMPLE_PRODUCTS.find(p => p.id === parseInt(id || '0'));
-  
+
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  console.log('ProductDetails id param:', id);
+  useEffect(() => {
+  if (!id) {
+    console.error('No product ID found in URL');
+    setLoading(false);
+    return;
+  }
+  setLoading(true);
+  fetch(`http://127.0.0.1:8000/api/products/${id}/`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      setProduct(data);
+      setLoading(false);
+      console.log('Fetched product:', data);
+    })
+    .catch((err) => {
+      console.error('Failed to fetch product:', err);
+      setLoading(false);
+    });
+}, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-8 text-center">
+          <h1 className="text-2xl font-bold mb-4">Loading...</h1>
+        </div>
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="min-h-screen bg-background">
@@ -233,7 +100,7 @@ const ProductDetails = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <Button
