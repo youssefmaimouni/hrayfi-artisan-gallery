@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { Eye, EyeOff, UserPlus } from 'lucide-react';
+import { Eye, EyeOff, UserPlus, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -18,6 +18,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     username: '',
     email:'',
+    phone: '',
     password: '',
     confirmPassword: '',
     name: '',
@@ -66,6 +67,7 @@ const Register = () => {
     const data = new FormData();
     data.append('username', formData.username);
     data.append('email', formData.email);
+    data.append('phone', formData.phone);
     data.append('password', formData.password);
     data.append('name', formData.name);
     data.append('biography', formData.biography);
@@ -156,6 +158,23 @@ const Register = () => {
                   className="h-10"
                   required
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="phone" className="text-sm font-medium">Phone Number</Label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="+212 6 12 34 56 78"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="h-10 pl-10"
+                    required
+                  />
+                </div>
               </div>
               
               <div className="space-y-2">
