@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { Eye, EyeOff, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -97,50 +98,54 @@ const Register = () => {
   return (
     <>
       <Header/>
-      <div className="min-h-screen gradient-bg moroccan-pattern flex items-center justify-center p-4">
-        <Card className="w-full max-w-md shadow-xl border-teal/20">
-          <CardHeader className="text-center">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <h1 className="text-3xl font-serif font-bold bg-gradient-to-r from-terracotta to-teal bg-clip-text text-transparent">
+      <div className="min-h-screen bg-gradient-to-br from-background to-accent/5 flex items-center justify-center p-4">
+        <Card className="w-full max-w-sm sm:max-w-md shadow-lg">
+          <CardHeader className="text-center space-y-2 pb-6">
+            <div className="flex items-center justify-center space-x-2 mb-2">
+              <h1 className="text-2xl sm:text-3xl font-serif font-bold bg-gradient-to-r from-terracotta to-teal bg-clip-text text-transparent">
                 Hraifia
               </h1>
             </div>
-            <CardTitle className="text-2xl text-terracotta">Join as Artisan</CardTitle>
-            <p className="text-muted-foreground">
-              Create your account to showcase your authentic Moroccan crafts
+            <CardTitle className="text-xl sm:text-2xl text-terracotta">Join as Artisan</CardTitle>
+            <p className="text-muted-foreground text-sm">
+              Showcase your authentic crafts
             </p>
           </CardHeader>
 
-          <CardContent>
+          <CardContent className="space-y-4">
             <form onSubmit={handleRegister} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Your full name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Your full name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="h-10"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="username" className="text-sm font-medium">Username</Label>
+                  <Input
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder="artisan123"
+                    value={formData.username}
+                    onChange={handleInputChange}
+                    className="h-10"
+                    required
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
-                <Input
-                  id="username"
-                  name="username"
-                  type="text"
-                  placeholder="e.g., artisan123"
-                  value={formData.username}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-sm font-medium">Email</Label>
                 <Input
                   id="email"
                   name="email"
@@ -148,18 +153,19 @@ const Register = () => {
                   placeholder="your@email.com"
                   value={formData.email}
                   onChange={handleInputChange}
+                  className="h-10"
                   required
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="region_id">Region</Label>
+                <Label htmlFor="region_id" className="text-sm font-medium">Region</Label>
                 <select
                   id="region_id"
                   name="region_id"
                   value={formData.region_id}
                   onChange={handleInputChange}
-                  className="w-full border-teal/30 focus:border-teal focus:ring-teal/20 rounded-md px-3 py-2"
+                  className="w-full h-10 px-3 py-2 text-sm border border-input rounded-md bg-background"
                   required
                 >
                   <option value="">-- Select Region --</option>
@@ -172,80 +178,86 @@ const Register = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="biography">Craft / Biography</Label>
+                <Label htmlFor="biography" className="text-sm font-medium">Craft / Biography</Label>
                 <Input
                   id="biography"
                   name="biography"
                   type="text"
-                  placeholder="e.g., Pottery master in Marrakech"
+                  placeholder="Pottery master in Marrakech"
                   value={formData.biography}
                   onChange={handleInputChange}
+                  className="h-10"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="main_image">Profile Image</Label>
+                <Label htmlFor="main_image" className="text-sm font-medium">Profile Image</Label>
                 <Input
                   id="main_image"
                   name="main_image"
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
+                  className="h-10"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    name="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Create a password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 hover:bg-teal/10"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </Button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Create password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      className="h-10 pr-10"
+                      required
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-10 w-10 p-0 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </Button>
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <div className="relative">
-                  <Input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder="Confirm your password"
-                    value={formData.confirmPassword}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 hover:bg-teal/10"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </Button>
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirm</Label>
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      placeholder="Confirm password"
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
+                      className="h-10 pr-10"
+                      required
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-10 w-10 p-0 hover:bg-transparent"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                      {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </Button>
+                  </div>
                 </div>
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-terracotta to-teal hover:from-terracotta/90 hover:to-teal/90 text-white"
+                className="w-full h-10 bg-gradient-to-r from-terracotta to-teal hover:from-terracotta/90 hover:to-teal/90"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -259,7 +271,7 @@ const Register = () => {
               </Button>
             </form>
 
-            <div className="mt-6 text-center">
+            <div className="text-center pt-4 border-t">
               <p className="text-sm text-muted-foreground">
                 Already have an account?{' '}
                 <Link to="/login" className="text-teal hover:text-teal/80 hover:underline font-medium">

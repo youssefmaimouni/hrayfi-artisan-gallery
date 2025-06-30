@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from './ProductCard';
@@ -86,76 +87,75 @@ const ProductGrid = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      {/* <div className="mb-8">
-        <h1 className="text-3xl font-serif font-bold mb-2">Artisan Marketplace</h1>
-        <p className="text-muted-foreground">Discover authentic Moroccan crafts made by skilled artisans</p>
-      </div> */}
-
-      {/* Filters */}
-      <ProductFilters
-        categories={categories}
-        selectedCategories={selectedCategories}
-        onCategoryChange={setSelectedCategories}
-        // priceRange={priceRange}
-        // onPriceChange={setPriceRange}
-        // sortBy={sortBy}
-        // onSortChange={setSortBy}
-      />
-
-      {/* Loading State */}
-      {loading ? (
-        <div className="text-center py-12">
-          <p className="text-lg">Loading products...</p>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* Filters */}
+        <div className="mb-6 sm:mb-8">
+          <ProductFilters
+            categories={categories}
+            selectedCategories={selectedCategories}
+            onCategoryChange={setSelectedCategories}
+          />
         </div>
-      ) : (
-        <>
-          {/* Results Count */}
-          <div className="mb-6">
-            <p className="text-sm text-muted-foreground">
-              Showing {filteredProducts.length} of {products.length} products
-            </p>
-          </div>
 
-          {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id.toString()}
-                name={product.name}
-                price={parseFloat(product.price)}
-                artisan={product.artisan.name}
-                rating={4.5}
-                reviewCount={Math.floor(Math.random() * 200) + 50}
-                image={product.main_image || '/placeholder.svg'}
-                category={product.category.name}
-                onClick={() => handleProductClick(product)}
-              />
-            ))}
-          </div>
-
-          {/* No Results */}
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-12">
-              <h3 className="text-lg font-medium mb-2">No products found</h3>
-              <p className="text-muted-foreground mb-4">
-                Try adjusting your filters or search terms
-              </p>
-              <button
-                onClick={() => {
-                  setSelectedCategories([]);
-                  setPriceRange([0, 1000]);
-                }}
-                className="text-primary hover:underline"
-              >
-                Clear all filters
-              </button>
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center space-y-4">
+              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+              <p className="text-muted-foreground">Loading products...</p>
             </div>
-          )}
-        </>
-      )}
+          </div>
+        ) : (
+          <>
+            {/* Results Count */}
+            <div className="mb-6">
+              <p className="text-sm text-muted-foreground">
+                Showing {filteredProducts.length} of {products.length} products
+              </p>
+            </div>
+
+            {/* Product Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+              {filteredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id.toString()}
+                  name={product.name}
+                  price={parseFloat(product.price)}
+                  artisan={product.artisan.name}
+                  rating={4.5}
+                  reviewCount={Math.floor(Math.random() * 200) + 50}
+                  image={product.main_image || '/placeholder.svg'}
+                  category={product.category.name}
+                  onClick={() => handleProductClick(product)}
+                />
+              ))}
+            </div>
+
+            {/* No Results */}
+            {filteredProducts.length === 0 && (
+              <div className="text-center py-20">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium">No products found</h3>
+                  <p className="text-muted-foreground">
+                    Try adjusting your filters or search terms
+                  </p>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setSelectedCategories([]);
+                      setPriceRange([0, 1000]);
+                    }}
+                  >
+                    Clear all filters
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

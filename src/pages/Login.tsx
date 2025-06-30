@@ -60,36 +60,37 @@ const Login = () => {
   return (
     <>
       <Header/>
-      <div className="min-h-[90vh] gradient-bg moroccan-pattern flex items-center justify-center p-4">
-        <Card className="w-full max-w-md shadow-xl border-teal/20">
-          <CardHeader className="text-center">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <h1 className="text-3xl font-serif font-bold bg-gradient-to-r from-terracotta to-teal bg-clip-text text-transparent">Hraifia</h1>
+      <div className="min-h-screen bg-gradient-to-br from-background to-accent/5 flex items-center justify-center p-4">
+        <Card className="w-full max-w-sm sm:max-w-md shadow-lg">
+          <CardHeader className="text-center space-y-2 pb-6">
+            <div className="flex items-center justify-center space-x-2 mb-2">
+              <h1 className="text-2xl sm:text-3xl font-serif font-bold bg-gradient-to-r from-terracotta to-teal bg-clip-text text-transparent">
+                Hraifia
+              </h1>
             </div>
-            <CardTitle className="text-2xl text-terracotta">Artisan Login</CardTitle>
-            <p className="text-muted-foreground">
-              Access your artisan dashboard to manage your products
+            <CardTitle className="text-xl sm:text-2xl text-terracotta">Artisan Login</CardTitle>
+            <p className="text-muted-foreground text-sm">
+              Access your artisan dashboard
             </p>
           </CardHeader>
           
-          <CardContent>
+          <CardContent className="space-y-4">
             <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-                <Label htmlFor="identifier">Email or Username</Label>
+              <div className="space-y-2">
+                <Label htmlFor="identifier" className="text-sm font-medium">Email or Username</Label>
                 <Input
                   id="identifier"
                   type="text"
                   placeholder="Enter email or username"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="border-teal/30 focus:border-teal focus:ring-teal/20"
+                  className="h-10"
                   required
                 />
               </div>
 
-              
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -97,14 +98,14 @@ const Login = () => {
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="border-teal/30 focus:border-teal focus:ring-teal/20"
+                    className="h-10 pr-10"
                     required
                   />
                   <Button
                     type="button"
                     variant="ghost"
-                    size="icon"
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 hover:bg-teal/10"
+                    size="sm"
+                    className="absolute right-0 top-0 h-10 w-10 p-0 hover:bg-transparent"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -114,7 +115,7 @@ const Login = () => {
               
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-terracotta to-teal hover:from-terracotta/90 hover:to-teal/90 text-white"
+                className="w-full h-10 bg-gradient-to-r from-terracotta to-teal hover:from-terracotta/90 hover:to-teal/90"
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -128,7 +129,7 @@ const Login = () => {
               </Button>
             </form>
             
-            <div className="mt-6 text-center">
+            <div className="text-center pt-4 border-t">
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{' '}
                 <Link to="/register" className="text-teal hover:text-teal/80 hover:underline font-medium">

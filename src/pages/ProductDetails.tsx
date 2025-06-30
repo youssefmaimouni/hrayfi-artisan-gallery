@@ -74,8 +74,13 @@ const ProductDetails = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="container mx-auto px-4 py-8 text-center">
-          <h1 className="text-2xl font-bold mb-4">Loading...</h1>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center space-y-4">
+              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+              <p className="text-muted-foreground">Loading product...</p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -85,11 +90,15 @@ const ProductDetails = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="container mx-auto px-4 py-8 text-center">
-          <h1 className="text-2xl font-bold mb-4">Product not found</h1>
-          <Button onClick={() => navigate('/')}>
-            Back to Products
-          </Button>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center py-20">
+            <div className="space-y-4">
+              <h1 className="text-2xl font-bold">Product not found</h1>
+              <Button onClick={() => navigate('/')}>
+                Back to Products
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -101,34 +110,35 @@ const ProductDetails = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Back Button */}
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
           className="mb-6"
+          size="sm"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Products
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
           {/* Product Image */}
           <div className="relative">
             <img
               src={product.main_image || '/placeholder.svg'}
               alt={product.name}
-              className="w-full h-96 lg:h-[500px] object-cover rounded-lg"
+              className="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-lg"
             />
           </div>
 
           {/* Product Info */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <div>
               <Badge variant="secondary" className="mb-2">
                 {product.category.name}
               </Badge>
-              <h1 className="text-3xl font-serif font-bold mb-2">
+              <h1 className="text-2xl sm:text-3xl font-serif font-bold mb-2">
                 {product.name}
               </h1>
               <p className="text-muted-foreground mb-4">
@@ -142,7 +152,7 @@ const ProductDetails = () => {
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-5 h-5 ${
+                    className={`w-4 h-4 sm:w-5 sm:h-5 ${
                       i < 4 ? 'fill-golden text-golden' : 'text-muted-foreground'
                     }`}
                   />
@@ -155,29 +165,29 @@ const ProductDetails = () => {
 
             {/* Price */}
             <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold text-primary">
+              <span className="text-2xl sm:text-3xl font-bold text-primary">
                 ${price}
               </span>
             </div>
 
             {/* Description */}
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
               {product.description}
             </p>
 
             {/* Dimensions */}
             <div className="space-y-2">
               <h4 className="font-semibold">Dimensions</h4>
-              <p className="text-muted-foreground">{product.dimensions}</p>
+              <p className="text-muted-foreground text-sm sm:text-base">{product.dimensions}</p>
             </div>
 
             {/* Actions */}
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Button size="lg" className="flex-1">
                 <ShoppingBag className="w-4 h-4 mr-2" />
                 Add to Cart
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" className="sm:w-auto">
                 <Heart className="w-4 h-4" />
               </Button>
             </div>
@@ -185,32 +195,34 @@ const ProductDetails = () => {
         </div>
 
         {/* Detailed Information */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6">
           {/* Cultural Significance */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Star className="w-5 h-5" />
-                Cultural Significance
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground leading-relaxed">
-                {product.cultural_significance}
-              </p>
-            </CardContent>
-          </Card>
+          {product.cultural_significance && (
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                  <Star className="w-4 h-4 sm:w-5 sm:h-5" />
+                  Cultural Significance
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
+                  {product.cultural_significance}
+                </p>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Materials */}
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Palette className="w-5 h-5" />
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                <Palette className="w-4 h-4 sm:w-5 sm:h-5" />
                 Materials
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-sm sm:text-base">
                 {product.materials}
               </p>
             </CardContent>
@@ -218,10 +230,10 @@ const ProductDetails = () => {
         </div>
 
         {/* Artisan Information */}
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <MapPin className="w-5 h-5" />
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+              <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
               Artisan Information
             </CardTitle>
           </CardHeader>
@@ -229,12 +241,12 @@ const ProductDetails = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <h4 className="font-semibold mb-1">Artisan</h4>
-                <p className="text-muted-foreground">{product.artisan.name}</p>
-                <p className="text-sm text-muted-foreground mt-2">{product.artisan.biography}</p>
+                <p className="text-muted-foreground text-sm sm:text-base">{product.artisan.name}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-2">{product.artisan.biography}</p>
               </div>
               <div>
                 <h4 className="font-semibold mb-1">Region</h4>
-                <p className="text-muted-foreground">{product.region.name}</p>
+                <p className="text-muted-foreground text-sm sm:text-base">{product.region.name}</p>
               </div>
             </div>
           </CardContent>
