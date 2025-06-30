@@ -1,6 +1,4 @@
 
-import { Star, Heart } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 interface ProductCardProps {
@@ -22,8 +20,6 @@ const ProductCard = ({
   price, 
   originalPrice, 
   artisan, 
-  rating, 
-  reviewCount, 
   image, 
   category,
   isNew,
@@ -66,20 +62,6 @@ const ProductCard = ({
           )}
         </div>
 
-        {/* Favorite Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-3 right-3 bg-background/80 hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          onClick={(e) => {
-            e.stopPropagation();
-            // Handle favorite toggle
-          }}
-          aria-label={`Add ${name} to favorites`}
-        >
-          <Heart className="w-4 h-4" />
-        </Button>
-
         {/* Category */}
         <div className="absolute bottom-3 left-3">
           <Badge variant="secondary" className="text-xs">
@@ -93,30 +75,9 @@ const ProductCard = ({
           {name}
         </h3>
         
-        <p className="text-sm text-muted-foreground mb-2">
+        <p className="text-sm text-muted-foreground mb-3">
           by {artisan}
         </p>
-
-        {/* Rating */}
-        <div className="flex items-center gap-1 mb-3">
-          <div className="flex items-center">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={`w-4 h-4 ${
-                  i < Math.floor(rating)
-                    ? 'fill-golden text-golden'
-                    : i < rating
-                    ? 'fill-golden/50 text-golden'
-                    : 'text-muted-foreground'
-                }`}
-              />
-            ))}
-          </div>
-          <span className="text-sm text-muted-foreground ml-1">
-            ({reviewCount})
-          </span>
-        </div>
 
         {/* Price */}
         <div className="flex items-center gap-2">
