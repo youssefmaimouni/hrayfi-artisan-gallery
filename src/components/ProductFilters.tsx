@@ -1,49 +1,46 @@
 
 import { useState } from 'react';
-import { ChevronDown, Filter } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { Slider } from '@/components/ui/slider';
 
 interface ProductFiltersProps {
   categories: string[];
-  selectedCategories: string[];
-  onCategoryChange: (categories: string[]) => void;
-  priceRange?: [number, number];
-  onPriceChange?: (range: [number, number]) => void;
-  sortBy?: string;
-  onSortChange?: (sort: string) => void;
+  regions: string[];
+  selectedCategory: string;
+  selectedRegion: string;
+  searchQuery: string;
+  onCategoryChange: (category: string) => void;
+  onRegionChange: (region: string) => void;
+  onSearchChange: (query: string) => void;
 }
 
 const ProductFilters = ({
   categories,
-  selectedCategories,
+  regions,
+  selectedCategory,
+  selectedRegion,
+  searchQuery,
   onCategoryChange,
-  // priceRange,
-  // onPriceChange,
-  // sortBy,
-  // onSortChange,
+  onRegionChange,
+  onSearchChange,
 }: ProductFiltersProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleCategoryToggle = (category: string) => {
-    const updated = selectedCategories.includes(category)
-      ? selectedCategories.filter(c => c !== category)
-      : [...selectedCategories, category];
-    onCategoryChange(updated);
-  };
-
   const clearAllFilters = () => {
-    onCategoryChange([]);
-    //onPriceChange([0, 1000]);
+    onCategoryChange('');
+    onRegionChange('');
+    onSearchChange('');
   };
 
-  const activeFiltersCount = selectedCategories.length;
+  const activeFiltersCount = (selectedCategory ? 1 : 0) + (selectedRegion ? 1 : 0) + (searchQuery ? 1 : 0);
 
   return (
     <div className="border-b border-border pb-4 mb-6">
@@ -59,28 +56,53 @@ const ProductFilters = ({
                   {activeFiltersCount}
                 </Badge>
               )}
-              <ChevronDown className="w-4 h-4" />
             </Button>
           </CollapsibleTrigger>
         </Collapsible>
       </div>
 
       {/* Desktop Filters */}
-      <div className="hidden lg:flex items-center gap-6 flex-wrap">
-        {/* Categories */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-sm font-medium">Categories:</span>
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => handleCategoryToggle(category)}
-              className={`filter-button ${selectedCategories.includes(category) ? 'active' : ''}`}
-              aria-pressed={selectedCategories.includes(category)}
-            >
-              {category}
-            </button>
-          ))}
+      <div className="hidden lg:flex items-center gap-4 flex-wrap">
+        {/* Search */}
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+          <Input
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className="pl-10"
+          />
         </div>
+
+        {/* Category Select */}
+        <Select value={selectedCategory} onValueChange={onCategoryChange}>
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">All Categories</SelectItem>
+            {categories.map((category) => (
+              <SelectItem key={category} value={category}>
+                {category}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* Region Select */}
+        <Select value={selectedRegion} onValueChange={onRegionChange}>
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Select region" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">All Regions</SelectItem>
+            {regions.map((region) => (
+              <SelectItem key={region} value={region}>
+                {region}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
         {/* Clear Filters */}
         {activeFiltersCount > 0 && (
@@ -94,21 +116,51 @@ const ProductFilters = ({
       <div className="lg:hidden">
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <CollapsibleContent className="space-y-4 mt-4">
-            {/* Categories */}
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+
+            {/* Category Select */}
             <div>
-              <h3 className="font-medium mb-2">Categories</h3>
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => handleCategoryToggle(category)}
-                    className={`filter-button ${selectedCategories.includes(category) ? 'active' : ''}`}
-                    aria-pressed={selectedCategories.includes(category)}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
+              <label className="text-sm font-medium mb-2 block">Category</label>
+              <Select value={selectedCategory} onValueChange={onCategoryChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All Categories</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Region Select */}
+            <div>
+              <label className="text-sm font-medium mb-2 block">Region</label>
+              <Select value={selectedRegion} onValueChange={onRegionChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select region" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All Regions</SelectItem>
+                  {regions.map((region) => (
+                    <SelectItem key={region} value={region}>
+                      {region}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Clear Filters */}

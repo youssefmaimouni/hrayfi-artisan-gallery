@@ -40,8 +40,9 @@ interface Product {
 const ProductGrid = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedRegion, setSelectedRegion] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState('popularity');
   const [loading, setLoading] = useState(true);
 
@@ -59,11 +60,18 @@ const ProductGrid = () => {
   }, []);
 
   const categories = Array.from(new Set(products.map(p => p.category.name)));
+  const regions = Array.from(new Set(products.map(p => p.region.name)));
 
   const filteredProducts = products
     .filter(product => {
-      const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category.name);
-      return categoryMatch;
+      const categoryMatch = !selectedCategory || product.category.name === selectedCategory;
+      const regionMatch = !selectedRegion || product.region.name === selectedRegion;
+      const searchMatch = !searchQuery || 
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.artisan.name.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      return categoryMatch && regionMatch && searchMatch;
     })
     .sort((a, b) => {
       const priceA = parseFloat(a.price);
@@ -92,8 +100,13 @@ const ProductGrid = () => {
         <div className="mb-6 sm:mb-8">
           <ProductFilters
             categories={categories}
-            selectedCategories={selectedCategories}
-            onCategoryChange={setSelectedCategories}
+            regions={regions}
+            selectedCategory={selectedCategory}
+            selectedRegion={selectedRegion}
+            searchQuery={searchQuery}
+            onCategoryChange={setSelectedCategory}
+            onRegionChange={setSelectedRegion}
+            onSearchChange={setSearchQuery}
           />
         </div>
 
@@ -143,8 +156,9 @@ const ProductGrid = () => {
                   <Button
                     variant="outline"
                     onClick={() => {
-                      setSelectedCategories([]);
-                      setPriceRange([0, 1000]);
+                      setSelectedCategory('');
+                      setSelectedRegion('');
+                      setSearchQuery('');
                     }}
                   >
                     Clear all filters
