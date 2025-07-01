@@ -1,9 +1,11 @@
+
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2, Package, Eye } from "lucide-react";
-import ProductForm from "@/components/ProductForm"; // Assuming you have a ProductForm component
+import ProductForm from "@/components/ProductForm";
+import DashboardFilters from "@/components/DashboardFilters";
 import Header from '@/components/Header';
 
 interface Region {
@@ -40,6 +42,7 @@ interface Product {
 
 const ArtisanPage = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [artisan, setArtisan] = useState<Artisan | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loadingArtisan, setLoadingArtisan] = useState(true);
@@ -47,6 +50,11 @@ const ArtisanPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  
+  // Filter states
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedRegion, setSelectedRegion] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     if (!id) return;
@@ -85,9 +93,28 @@ const ArtisanPage = () => {
       });
   }, [id]);
 
+  // Get unique categories and regions
+  const categories = Array.from(new Set(products.map(p => p.category.name)));
+  const regions = Array.from(new Set(products.map(p => p.region.name)));
+
+  // Filter products
+  const filteredProducts = products.filter(product => {
+    const categoryMatch = !selectedCategory || selectedCategory === 'all-categories' || product.category.name === selectedCategory;
+    const regionMatch = !selectedRegion || selectedRegion === 'all-regions' || product.region.name === selectedRegion;
+    const searchMatch = !searchQuery || 
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    return categoryMatch && regionMatch && searchMatch;
+  });
+
   const handleEditProduct = (product: Product) => {
     setEditingProduct(product);
     setIsFormOpen(true);
+  };
+
+  const handleViewProduct = (product: Product) => {
+    navigate(`/product/${product.id}`);
   };
 
   const handleDeleteProduct = async (productId: number) => {
@@ -110,12 +137,6 @@ const ArtisanPage = () => {
       console.error("Delete request failed:", error);
       alert("An error occurred while deleting the product.");
     }
-  };
-
-  const handleSaveProduct = (savedProduct: Product) => {
-    // Implement your save logic here, then refresh or update products state
-    setIsFormOpen(false);
-    setEditingProduct(null);
   };
 
   const handleSave = (savedProduct: Product) => {
@@ -163,7 +184,7 @@ const ArtisanPage = () => {
               <Package className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{products.length}</div>
+              <div className="text-2xl font-bold">{filteredProducts.length}</div>
             </CardContent>
           </Card>
 
@@ -174,7 +195,7 @@ const ArtisanPage = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {new Set(products.map((p) => p.category.name)).size}
+                {new Set(filteredProducts.map((p) => p.category.name)).size}
               </div>
             </CardContent>
           </Card>
@@ -187,15 +208,27 @@ const ArtisanPage = () => {
             <CardContent>
               <div className="text-2xl font-bold">
                 $
-                {products.length > 0
+                {filteredProducts.length > 0
                   ? Math.round(
-                      products.reduce((sum, p) => sum + parseFloat(p.price), 0) / products.length
+                      filteredProducts.reduce((sum, p) => sum + parseFloat(p.price), 0) / filteredProducts.length
                     )
                   : 0}
               </div>
             </CardContent>
           </Card>
         </div>
+
+        {/* Filters */}
+        <DashboardFilters
+          categories={categories}
+          regions={regions}
+          selectedCategory={selectedCategory}
+          selectedRegion={selectedRegion}
+          searchQuery={searchQuery}
+          onCategoryChange={setSelectedCategory}
+          onRegionChange={setSelectedRegion}
+          onSearchChange={setSearchQuery}
+        />
 
         {/* Products Header */}
         <div className="flex items-center justify-between mb-6">
@@ -208,7 +241,7 @@ const ArtisanPage = () => {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <Card key={product.id} className="product-card">
               <div className="relative h-48 overflow-hidden rounded-t-lg">
                 {product.main_image ? (
@@ -235,7 +268,11 @@ const ArtisanPage = () => {
                   <span className="font-bold text-primary">${product.price}</span>
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
+                  <Button variant="outline" size="sm" onClick={() => handleViewProduct(product)}>
+                    <Eye className="w-4 h-4 mr-1" />
+                    View
+                  </Button>
                   <Button variant="outline" size="sm" onClick={() => handleEditProduct(product)}>
                     <Edit className="w-4 h-4 mr-1" />
                     Edit
@@ -254,16 +291,19 @@ const ArtisanPage = () => {
           ))}
         </div>
 
-        {products.length === 0 && (
+        {filteredProducts.length === 0 && (
           <div className="text-center py-12">
             <Package className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">No products yet</h3>
+            <h3 className="text-xl font-semibold mb-2">No products found</h3>
             <p className="text-muted-foreground mb-4">
-              Start by adding your first artisan product to showcase your craftsmanship.
+              {products.length === 0 
+                ? "Start by adding your first artisan product to showcase your craftsmanship."
+                : "Try adjusting your filters to see more products."
+              }
             </p>
             <Button onClick={() => setIsFormOpen(true)}>
               <Plus className="w-4 h-4 mr-2" />
-              Add Your First Product
+              Add Product
             </Button>
           </div>
         )}

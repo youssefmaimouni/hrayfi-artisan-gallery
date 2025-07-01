@@ -1,6 +1,7 @@
+
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Star, Heart, ShoppingBag, MapPin, Palette } from 'lucide-react';
+import { ArrowLeft, MapPin, Palette } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -146,23 +147,6 @@ const ProductDetails = () => {
               </p>
             </div>
 
-            {/* Rating */}
-            <div className="flex items-center gap-2">
-              <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                      i < 4 ? 'fill-golden text-golden' : 'text-muted-foreground'
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-sm text-muted-foreground">
-                4.5 (127 reviews)
-              </span>
-            </div>
-
             {/* Price */}
             <div className="flex items-center gap-3">
               <span className="text-2xl sm:text-3xl font-bold text-primary">
@@ -180,17 +164,6 @@ const ProductDetails = () => {
               <h4 className="font-semibold">Dimensions</h4>
               <p className="text-muted-foreground text-sm sm:text-base">{product.dimensions}</p>
             </div>
-
-            {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button size="lg" className="flex-1">
-                <ShoppingBag className="w-4 h-4 mr-2" />
-                Add to Cart
-              </Button>
-              <Button variant="outline" size="lg" className="sm:w-auto">
-                <Heart className="w-4 h-4" />
-              </Button>
-            </div>
           </div>
         </div>
 
@@ -201,7 +174,7 @@ const ProductDetails = () => {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
-                  <Star className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                   Cultural Significance
                 </CardTitle>
               </CardHeader>
