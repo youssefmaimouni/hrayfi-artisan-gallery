@@ -64,8 +64,8 @@ const ProductGrid = () => {
 
   const filteredProducts = products
     .filter(product => {
-      const categoryMatch = !selectedCategory || product.category.name === selectedCategory;
-      const regionMatch = !selectedRegion || product.region.name === selectedRegion;
+      const categoryMatch = !selectedCategory || selectedCategory === 'all-categories' || product.category.name === selectedCategory;
+      const regionMatch = !selectedRegion || selectedRegion === 'all-regions' || product.region.name === selectedRegion;
       const searchMatch = !searchQuery || 
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
