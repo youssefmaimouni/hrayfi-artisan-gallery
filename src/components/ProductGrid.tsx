@@ -66,10 +66,17 @@ const ProductGrid = () => {
     .filter(product => {
       const categoryMatch = !selectedCategory || selectedCategory === 'all-categories' || product.category.name === selectedCategory;
       const regionMatch = !selectedRegion || selectedRegion === 'all-regions' || product.region.name === selectedRegion;
+      
+      // Enhanced search - search across all text fields
       const searchMatch = !searchQuery || 
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.artisan.name.toLowerCase().includes(searchQuery.toLowerCase());
+        product.category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.region.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.artisan.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.materials.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.dimensions.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.cultural_significance.toLowerCase().includes(searchQuery.toLowerCase());
       
       return categoryMatch && regionMatch && searchMatch;
     })
