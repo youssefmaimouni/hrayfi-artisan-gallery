@@ -45,6 +45,7 @@ const Login = () => {
     localStorage.setItem('access', data.access);
     localStorage.setItem('refresh', data.refresh);
     localStorage.setItem('artisanEmail', email);
+    localStorage.setItem('artisanId', data.artisan.id.toString());
     localStorage.setItem('isAuthenticated', 'true');
 
     navigate(`/artisan/${data.artisan.id}`);

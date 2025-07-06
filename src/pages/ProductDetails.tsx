@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Header from '@/components/Header';
+import Chatbot from '@/components/Chatbot';
 
 interface Region {
   id: number;
@@ -225,6 +226,7 @@ const ProductDetails = () => {
           </CardContent>
         </Card>
       </div>
+      <Chatbot />
     </div>
   );
 };

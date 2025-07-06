@@ -7,6 +7,7 @@ import { Plus, Edit, Trash2, Package, Eye } from "lucide-react";
 import ProductForm from "@/components/ProductForm";
 import DashboardFilters from "@/components/DashboardFilters";
 import Header from '@/components/Header';
+import Chatbot from '@/components/Chatbot';
 
 interface Region {
   id: number;
@@ -326,6 +327,7 @@ const ArtisanPage = () => {
           editingProduct={editingProduct}
         />
       </div>
+      <Chatbot />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
-import { Search, Heart, ShoppingBag, Menu, Moon, Sun, LogIn, LogOut } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, Moon, Sun, LogIn, LogOut, User } from 'lucide-react';
+import logoImg from '@/assets/hrayfia-logo.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTheme } from '@/hooks/useTheme';
@@ -13,6 +14,13 @@ const Header = () => {
 
   // Check if user is authenticated
   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  
+  const handleProfileClick = () => {
+    const artisanId = localStorage.getItem('artisanId');
+    if (artisanId) {
+      navigate(`/artisan/${artisanId}`);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('access');
@@ -28,9 +36,11 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <h1 className="text-xl sm:text-2xl font-serif font-bold bg-gradient-to-r from-terracotta to-teal bg-clip-text text-transparent">
-              Hraifia
-            </h1>
+            <img 
+              src={logoImg} 
+              alt="Hrayfia Logo" 
+              className="h-10 w-auto"
+            />
             <span className="text-xs sm:text-sm text-muted-foreground hidden md:block">
               Authentic Moroccan Crafts
             </span>
@@ -48,15 +58,26 @@ const Header = () => {
             </Button>
 
             {isAuthenticated ? (
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="hover:bg-accent"
-                onClick={handleLogout}
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
+              <>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="hover:bg-accent"
+                  onClick={handleProfileClick}
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Profile
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="hover:bg-accent"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </>
             ) : (
               <Link to="/login">
                 <Button variant="ghost" size="sm" className="hover:bg-accent">
@@ -93,15 +114,26 @@ const Header = () => {
               </Button>
               
               {isAuthenticated ? (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="w-full justify-start hover:bg-accent"
-                  onClick={handleLogout}
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Logout
-                </Button>
+                <>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start hover:bg-accent"
+                    onClick={handleProfileClick}
+                  >
+                    <User className="w-4 h-4 mr-2" />
+                    Profile
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start hover:bg-accent"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
+                  </Button>
+                </>
               ) : (
                 <Link to="/login" className="block">
                   <Button variant="ghost" size="sm" className="w-full justify-start hover:bg-accent">
