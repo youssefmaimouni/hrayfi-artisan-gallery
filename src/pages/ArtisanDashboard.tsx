@@ -59,36 +59,69 @@ const ArtisanPage = () => {
 
   useEffect(() => {
     if (!id) return;
+    
+    // Check if user is authenticated
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    const token = localStorage.getItem('access');
+    
+    if (!isAuthenticated || !token) {
+      console.log('User not authenticated, redirecting to login');
+      navigate('/login');
+      return;
+    }
+    
+    console.log('Fetching artisan data for ID:', id);
     setLoadingArtisan(true);
-    fetch(`http://127.0.0.1:8000/api/artisans/${id}/`)
+    fetch(`http://127.0.0.1:8000/api/artisans/${id}/`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch artisan");
+        console.log('Artisan fetch response status:', res.status);
+        if (!res.ok) throw new Error(`Failed to fetch artisan: ${res.status} ${res.statusText}`);
         return res.json();
       })
       .then((data) => {
+        console.log('Artisan data received:', data);
         setArtisan(data);
         setLoadingArtisan(false);
       })
       .catch((err) => {
+        console.error('Error fetching artisan:', err);
         setError(err.message);
         setLoadingArtisan(false);
       });
-  }, [id]);
+  }, [id, navigate]);
 
   useEffect(() => {
     if (!id) return;
+    
+    const token = localStorage.getItem('access');
+    if (!token) return;
+    
+    console.log('Fetching products for artisan ID:', id);
     setLoadingProducts(true);
     setError(null);
-    fetch(`http://127.0.0.1:8000/api/artisans/${id}/products/`)
+    fetch(`http://127.0.0.1:8000/api/artisans/${id}/products/`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch products");
+        console.log('Products fetch response status:', res.status);
+        if (!res.ok) throw new Error(`Failed to fetch products: ${res.status} ${res.statusText}`);
         return res.json();
       })
       .then((data) => {
+        console.log('Products data received:', data);
         setProducts(data.results);
         setLoadingProducts(false);
       })
       .catch((err) => {
+        console.error('Error fetching products:', err);
         setError(err.message);
         setLoadingProducts(false);
       });
