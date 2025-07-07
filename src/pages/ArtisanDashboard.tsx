@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2, Package, Eye } from "lucide-react";
 import ProductForm from "@/components/ProductForm";
 import DashboardFilters from "@/components/DashboardFilters";
+import ArtisanProfileForm from "@/components/ArtisanProfileForm";
 import Header from '@/components/Header';
 import Chatbot from '@/components/Chatbot';
 
@@ -18,6 +19,7 @@ interface Artisan {
   id: number;
   name: string;
   biography: string;
+  phone: string;
   region: Region;
   main_image: string | null;
 }
@@ -195,6 +197,10 @@ const ArtisanPage = () => {
     setIsFormOpen(false);
   };
 
+  const handleArtisanUpdate = (updatedArtisan: Artisan) => {
+    setArtisan(updatedArtisan);
+  };
+
   const handleAddProduct = () => {
     setEditingProduct(null);
     setIsFormOpen(true);
@@ -217,6 +223,9 @@ const ArtisanPage = () => {
       <Header/>
 
       <div className="container mx-auto px-4 py-8">
+        {/* Artisan Profile */}
+        <ArtisanProfileForm artisan={artisan} onUpdate={handleArtisanUpdate} />
+
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
