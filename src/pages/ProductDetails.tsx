@@ -144,7 +144,12 @@ const ProductDetails = () => {
                 {product.name}
               </h1>
               <p className="text-muted-foreground mb-4">
-                by {product.artisan.name}
+                by <button 
+                  onClick={() => navigate(`/artisan/${product.artisan.id}/products`)}
+                  className="text-primary hover:underline"
+                >
+                  {product.artisan.name}
+                </button>
               </p>
             </div>
 
@@ -215,7 +220,12 @@ const ProductDetails = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <h4 className="font-semibold mb-1">Artisan</h4>
-                <p className="text-muted-foreground text-sm sm:text-base">{product.artisan.name}</p>
+                <button 
+                  onClick={() => navigate(`/artisan/${product.artisan.id}/products`)}
+                  className="text-primary hover:underline text-sm sm:text-base"
+                >
+                  {product.artisan.name}
+                </button>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-2">{product.artisan.biography}</p>
               </div>
               <div>
