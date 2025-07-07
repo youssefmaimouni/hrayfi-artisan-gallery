@@ -18,6 +18,7 @@ interface Region {
 interface Artisan {
   id: number;
   name: string;
+  email?: string;
   biography: string;
   phone: string;
   region: Region;
