@@ -116,12 +116,12 @@ const ProductDetails = () => {
         {/* Back Button */}
         <Button
           variant="ghost"
-          onClick={() => navigate('/')}
+          onClick={() => navigate(-1)}
           className="mb-6"
           size="sm"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Products
+          Back
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
