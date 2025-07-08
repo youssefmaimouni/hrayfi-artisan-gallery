@@ -232,7 +232,7 @@ const ArtisanProfileForm = ({ artisan, onUpdate }: ArtisanProfileFormProps) => {
             </div>
             <div>
               <h4 className="font-medium mb-2">Biography</h4>
-              <p className="text-muted-foreground">{artisan.biography}</p>
+              <p className="text-muted-foreground line-clamp-3">{artisan.biography}</p>
             </div>
           </div>
         )}

@@ -7,6 +7,7 @@ import { Plus, Edit, Trash2, Package, Eye } from "lucide-react";
 import ProductForm from "@/components/ProductForm";
 import DashboardFilters from "@/components/DashboardFilters";
 import ArtisanProfileForm from "@/components/ArtisanProfileForm";
+import ArtisanLoginForm from "@/components/ArtisanLoginForm";
 import Header from '@/components/Header';
 import Chatbot from '@/components/Chatbot';
 
@@ -226,6 +227,7 @@ const ArtisanPage = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Artisan Profile */}
         <ArtisanProfileForm artisan={artisan} onUpdate={handleArtisanUpdate} />
+        <ArtisanLoginForm artisan={artisan} onUpdate={handleArtisanUpdate} />
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
