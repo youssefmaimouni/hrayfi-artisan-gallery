@@ -30,6 +30,7 @@ const ArtisanLoginForm = ({ artisan, onUpdate }: ArtisanLoginFormProps) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: artisan.email || '',
+    username: '',
     currentPassword: '',
     newPassword: '',
     confirmPassword: '',
@@ -51,6 +52,7 @@ const ArtisanLoginForm = ({ artisan, onUpdate }: ArtisanLoginFormProps) => {
       
       const submitData = {
         email: formData.email,
+        username: formData.username,
         current_password: formData.currentPassword,
         new_password: formData.newPassword,
       };
@@ -70,6 +72,7 @@ const ArtisanLoginForm = ({ artisan, onUpdate }: ArtisanLoginFormProps) => {
         setIsEditing(false);
         setFormData({
           email: formData.email,
+          username: formData.username,
           currentPassword: '',
           newPassword: '',
           confirmPassword: '',
@@ -90,6 +93,7 @@ const ArtisanLoginForm = ({ artisan, onUpdate }: ArtisanLoginFormProps) => {
   const handleCancel = () => {
     setFormData({
       email: artisan.email || '',
+      username: '',
       currentPassword: '',
       newPassword: '',
       confirmPassword: '',
@@ -118,6 +122,18 @@ const ArtisanLoginForm = ({ artisan, onUpdate }: ArtisanLoginFormProps) => {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                id="username"
+                type="text"
+                value={formData.username}
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                placeholder="Enter new username"
                 required
               />
             </div>
@@ -204,6 +220,10 @@ const ArtisanLoginForm = ({ artisan, onUpdate }: ArtisanLoginFormProps) => {
             <div>
               <h4 className="font-medium mb-2">Email</h4>
               <p className="text-muted-foreground">{artisan.email}</p>
+            </div>
+            <div>
+              <h4 className="font-medium mb-2">Username</h4>
+              <p className="text-muted-foreground">View current username after updating</p>
             </div>
             <div>
               <h4 className="font-medium mb-2">Password</h4>
