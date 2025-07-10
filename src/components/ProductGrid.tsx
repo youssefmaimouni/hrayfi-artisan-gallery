@@ -47,49 +47,14 @@ const ProductGrid = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('Attempting to fetch products from:', 'https://api.achrafmansari.com/api/products/');
-    fetch('https://api.achrafmansari.com/api/products/')
-      .then((res) => {
-        console.log('Response status:', res.status);
-        console.log('Response headers:', res.headers);
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
+    fetch('http://127.0.0.1:8000/api/products/')
+      .then((res) => res.json())
       .then((data) => {
-        console.log('Products data received:', data);
-        setProducts(Array.isArray(data) ? data : data.results || []);
+        setProducts(data.results);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Failed to fetch products - likely CORS issue:', error);
-        // Use mock data as fallback
-        const mockProducts = [
-          {
-            id: 2,
-            name: "Traditional Artisan Craft",
-            description: "Beautiful handcrafted item",
-            materials: "Traditional materials",
-            dimensions: "Standard size",
-            cultural_significance: "Rich cultural heritage",
-            category: { id: 1, name: "cat1" },
-            region: { id: 2, name: "Morocco" },
-            artisan: {
-              id: 2,
-              name: "MyTindy.com",
-              email: "contact@mytindy.com",
-              phone: "+212529159392",
-              biography: "Skilled artisan with years of experience",
-              region: { id: 2, name: "Morocco" },
-              main_image: null
-            },
-            main_image: "https://cdn.achrafmansari.com/media/products/Screenshot_2025-07-10_044854.png",
-            price: "0.00"
-          }
-        ];
-        console.log('Using mock data due to CORS error');
-        setProducts(mockProducts);
+        console.error('Failed to fetch products:', error);
         setLoading(false);
       });
   }, []);

@@ -55,8 +55,8 @@ const ArtisanProducts = () => {
     if (!id) return;
     
     Promise.all([
-      fetch(`https://api.achrafmansari.com/api/artisans/${id}/`).then(res => res.json()),
-      fetch(`https://api.achrafmansari.com/api/artisans/${id}/products/`).then(res => res.json())
+      fetch(`http://127.0.0.1:8000/api/artisans/${id}/`).then(res => res.json()),
+      fetch(`http://127.0.0.1:8000/api/artisans/${id}/products/`).then(res => res.json())
     ])
     .then(([artisanData, productsData]) => {
       setArtisan(artisanData);
