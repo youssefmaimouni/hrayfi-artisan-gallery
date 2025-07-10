@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Search, Heart, ShoppingBag, Menu, Moon, Sun, LogIn, LogOut, User } from 'lucide-react';
-import logoImg from '@/assets/hrayfia-logo.jpg';
+import logoImg from '@/assets/hrayfia-logo-removebg-preview.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTheme } from '@/hooks/useTheme';
