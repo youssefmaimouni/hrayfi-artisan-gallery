@@ -47,14 +47,28 @@ const ProductGrid = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log('Attempting to fetch products from:', 'https://api.achrafmansari.com/api/products/');
     fetch('https://api.achrafmansari.com/api/products/')
-      .then((res) => res.json())
+      .then((res) => {
+        console.log('Response status:', res.status);
+        console.log('Response headers:', res.headers);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((data) => {
-        setProducts(data.results);
+        console.log('Products data received:', data);
+        setProducts(data.results || data);
         setLoading(false);
       })
       .catch((error) => {
         console.error('Failed to fetch products:', error);
+        console.error('Error details:', {
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        });
         setLoading(false);
       });
   }, []);
