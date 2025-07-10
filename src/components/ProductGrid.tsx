@@ -59,7 +59,7 @@ const ProductGrid = () => {
       })
       .then((data) => {
         console.log('Products data received:', data);
-        setProducts(data.results || data);
+        setProducts(Array.isArray(data) ? data : data.results || []);
         setLoading(false);
       })
       .catch((error) => {
