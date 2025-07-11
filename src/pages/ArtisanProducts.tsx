@@ -156,9 +156,9 @@ const ArtisanProducts = () => {
                 />
               )}
               <div>
-                <h1 className="text-2xl font-bold">{artisan.name}</h1>
-                <p className="text-muted-foreground">{artisan.region.name}</p>
-                <p className="text-sm text-muted-foreground mt-2">{artisan.biography}</p>
+                <h1 className="text-2xl font-bold">{artisan?.name || 'Unknown Artisan'}</h1>
+                <p className="text-muted-foreground">{artisan?.region?.name || 'Unknown Region'}</p>
+                <p className="text-sm text-muted-foreground mt-2">{artisan?.biography || 'No biography available'}</p>
               </div>
             </div>
           </CardContent>
@@ -181,7 +181,7 @@ const ArtisanProducts = () => {
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-sm text-muted-foreground">
-            Showing {filteredProducts.length} of {products.length} products by {artisan.name}
+            Showing {filteredProducts.length} of {products.length} products by {artisan?.name || 'Unknown Artisan'}
           </p>
         </div>
 
@@ -208,10 +208,10 @@ const ArtisanProducts = () => {
             <div className="space-y-4">
               <h3 className="text-lg font-medium">No products found</h3>
               <p className="text-muted-foreground">
-                {products.length === 0 
-                  ? `${artisan.name} hasn't added any products yet.`
-                  : "Try adjusting your filters to see more products."
-                }
+                 {products.length === 0 
+                   ? `${artisan?.name || 'This artisan'} hasn't added any products yet.`
+                   : "Try adjusting your filters to see more products."
+                 }
               </p>
             </div>
           </div>
