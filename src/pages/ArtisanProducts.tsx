@@ -60,7 +60,9 @@ const ArtisanProducts = () => {
     ])
     .then(([artisanData, productsData]) => {
       setArtisan(artisanData);
-      setProducts(productsData.results);
+      // Handle both direct array and results object formats
+      const products = Array.isArray(productsData) ? productsData : (productsData.results || []);
+      setProducts(products);
       setLoading(false);
     })
     .catch((error) => {
@@ -69,10 +71,10 @@ const ArtisanProducts = () => {
     });
   }, [id]);
 
-  const categories = Array.from(new Set(products.map(p => p.category.name)));
-  const regions = Array.from(new Set(products.map(p => p.region.name)));
+  const categories = Array.from(new Set((products || []).map(p => p.category.name)));
+  const regions = Array.from(new Set((products || []).map(p => p.region.name)));
 
-  const filteredProducts = products.filter(product => {
+  const filteredProducts = (products || []).filter(product => {
     const categoryMatch = !selectedCategory || selectedCategory === 'all-categories' || product.category.name === selectedCategory;
     const regionMatch = !selectedRegion || selectedRegion === 'all-regions' || product.region.name === selectedRegion;
     
