@@ -46,6 +46,8 @@ const ArtisanProducts = () => {
   
   const [artisan, setArtisan] = useState<Artisan | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [regions, setRegions] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -56,23 +58,29 @@ const ArtisanProducts = () => {
     
     Promise.all([
       fetch(`https://api.achrafmansari.com/api/artisans/${id}/`).then(res => res.json()),
-      fetch(`https://api.achrafmansari.com/api/artisans/${id}/products/`).then(res => res.json())
+      fetch(`https://api.achrafmansari.com/api/artisans/${id}/products/`).then(res => res.json()),
+      fetch(`https://api.achrafmansari.com/api/categories/`).then(res => res.json()),
+      fetch(`https://api.achrafmansari.com/api/regions/`).then(res => res.json())
     ])
-    .then(([artisanData, productsData]) => {
+    .then(([artisanData, productsData, categoriesData, regionsData]) => {
       setArtisan(artisanData);
       // Handle both direct array and results object formats
       const products = Array.isArray(productsData) ? productsData : (productsData.results || []);
       setProducts(products);
+      
+      // Extract categories and regions from API responses
+      const categoriesList = categoriesData.results?.map((cat: Category) => cat.name) || [];
+      const regionsList = regionsData.results?.map((region: Region) => region.name) || [];
+      setCategories(categoriesList);
+      setRegions(regionsList);
+      
       setLoading(false);
     })
     .catch((error) => {
-      console.error('Failed to fetch artisan data:', error);
+      console.error('Failed to fetch data:', error);
       setLoading(false);
     });
   }, [id]);
-
-  const categories = Array.from(new Set((products || []).map(p => p.category.name)));
-  const regions = Array.from(new Set((products || []).map(p => p.region.name)));
 
   const filteredProducts = (products || []).filter(product => {
     const categoryMatch = !selectedCategory || selectedCategory === 'all-categories' || product.category.name === selectedCategory;
