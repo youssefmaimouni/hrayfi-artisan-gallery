@@ -55,21 +55,31 @@ const ProductGrid = () => {
   const [sortBy, setSortBy] = useState('popularity');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(12);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPreviousPage, setHasPreviousPage] = useState(false);
 
 useEffect(() => {
-  fetch('https://api.achrafmansari.com/api/products/')
-    .then((res) => res.json()) // ✅ return JSON correctly
-    .then((data) => {
-      console.log('Fetched products:', data.results);
-      setProducts(data.results); // ✅ now it will work
-      setLoading(false);
-    })
-    .catch((error) => {
-      console.error('Failed to fetch products:', error);
-      setLoading(false);
-    });
-}, []);
+  const fetchProducts = () => {
+    setLoading(true);
+    fetch(`https://api.achrafmansari.com/api/products/?page=${currentPage}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('Fetched products:', data);
+        setProducts(data.results || []);
+        setTotalProducts(data.count || 0);
+        setHasNextPage(!!data.next);
+        setHasPreviousPage(!!data.previous);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch products:', error);
+        setLoading(false);
+      });
+  };
+
+  fetchProducts();
+}, [currentPage]);
 
 
   const categories = Array.from(new Set(products.map(p => p.category.name)));
@@ -109,11 +119,9 @@ useEffect(() => {
       }
     });
 
-  // Pagination logic
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentProducts = filteredProducts.slice(startIndex, endIndex);
+  // Calculate total pages based on API response
+  const itemsPerPage = 12; // API default
+  const totalPages = Math.ceil(totalProducts / itemsPerPage);
 
   const handleProductClick = (product: Product) => {
     navigate(`/product/${product.id}`);
@@ -163,14 +171,14 @@ useEffect(() => {
             {/* Results Count */}
             <div className="mb-6">
               <p className="text-sm text-muted-foreground">
-                Showing {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} of {filteredProducts.length} products
-                {filteredProducts.length < products.length && ` (filtered from ${products.length} total)`}
+                Showing {filteredProducts.length} products on page {currentPage} of {totalPages}
+                {totalProducts > 0 && ` (${totalProducts} total products)`}
               </p>
             </div>
 
             {/* Product Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-              {currentProducts.map((product) => (
+              {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
                   id={product.id.toString()}
@@ -192,10 +200,10 @@ useEffect(() => {
                 <Pagination>
                   <PaginationContent>
                     <PaginationItem>
-                      <PaginationPrevious 
-                        onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-                        className={currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                      />
+                  <PaginationPrevious 
+                    onClick={() => hasPreviousPage && handlePageChange(currentPage - 1)}
+                    className={!hasPreviousPage ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                  />
                     </PaginationItem>
                     
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
@@ -229,10 +237,10 @@ useEffect(() => {
                     })}
                     
                     <PaginationItem>
-                      <PaginationNext 
-                        onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-                        className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                      />
+                    <PaginationNext 
+                      onClick={() => hasNextPage && handlePageChange(currentPage + 1)}
+                      className={!hasNextPage ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                    />
                     </PaginationItem>
                   </PaginationContent>
                 </Pagination>
