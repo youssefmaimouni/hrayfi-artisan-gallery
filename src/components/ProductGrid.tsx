@@ -46,18 +46,20 @@ const ProductGrid = () => {
   const [sortBy, setSortBy] = useState('popularity');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/products/')
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data.results);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch products:', error);
-        setLoading(false);
-      });
-  }, []);
+useEffect(() => {
+  fetch('https://api.achrafmansari.com/api/products/')
+    .then((res) => res.json()) // ✅ return JSON correctly
+    .then((data) => {
+      console.log('Fetched products:', data.results);
+      setProducts(data.results); // ✅ now it will work
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.error('Failed to fetch products:', error);
+      setLoading(false);
+    });
+}, []);
+
 
   const categories = Array.from(new Set(products.map(p => p.category.name)));
   const regions = Array.from(new Set(products.map(p => p.region.name)));
