@@ -4,6 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import ProductCard from './ProductCard';
 import ProductFilters from './ProductFilters';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 
 interface Region {
   id: number;
@@ -45,6 +54,8 @@ const ProductGrid = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState('popularity');
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(12);
 
 useEffect(() => {
   fetch('https://api.achrafmansari.com/api/products/')
@@ -98,8 +109,19 @@ useEffect(() => {
       }
     });
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
+
   const handleProductClick = (product: Product) => {
     navigate(`/product/${product.id}`);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -113,9 +135,18 @@ useEffect(() => {
             selectedCategory={selectedCategory}
             selectedRegion={selectedRegion}
             searchQuery={searchQuery}
-            onCategoryChange={setSelectedCategory}
-            onRegionChange={setSelectedRegion}
-            onSearchChange={setSearchQuery}
+            onCategoryChange={(category) => {
+              setSelectedCategory(category);
+              setCurrentPage(1);
+            }}
+            onRegionChange={(region) => {
+              setSelectedRegion(region);
+              setCurrentPage(1);
+            }}
+            onSearchChange={(search) => {
+              setSearchQuery(search);
+              setCurrentPage(1);
+            }}
           />
         </div>
 
@@ -132,13 +163,14 @@ useEffect(() => {
             {/* Results Count */}
             <div className="mb-6">
               <p className="text-sm text-muted-foreground">
-                Showing {filteredProducts.length} of {products.length} products
+                Showing {startIndex + 1}-{Math.min(endIndex, filteredProducts.length)} of {filteredProducts.length} products
+                {filteredProducts.length < products.length && ` (filtered from ${products.length} total)`}
               </p>
             </div>
 
             {/* Product Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-              {filteredProducts.map((product) => (
+              {currentProducts.map((product) => (
                 <ProductCard
                   key={product.id}
                   id={product.id.toString()}
@@ -154,6 +186,59 @@ useEffect(() => {
               ))}
             </div>
 
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-8 flex justify-center">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                        className={currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                    
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                      if (
+                        page === 1 ||
+                        page === totalPages ||
+                        (page >= currentPage - 1 && page <= currentPage + 1)
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => handlePageChange(page)}
+                              isActive={currentPage === page}
+                              className="cursor-pointer"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      } else if (
+                        page === currentPage - 2 ||
+                        page === currentPage + 2
+                      ) {
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationEllipsis />
+                          </PaginationItem>
+                        );
+                      }
+                      return null;
+                    })}
+                    
+                    <PaginationItem>
+                      <PaginationNext 
+                        onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
+                        className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
+
             {/* No Results */}
             {filteredProducts.length === 0 && (
               <div className="text-center py-20">
@@ -168,6 +253,7 @@ useEffect(() => {
                       setSelectedCategory('');
                       setSelectedRegion('');
                       setSearchQuery('');
+                      setCurrentPage(1);
                     }}
                   >
                     Clear all filters
