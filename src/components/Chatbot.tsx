@@ -24,9 +24,10 @@ const Chatbot = () => {
     },
   ]);
   const [inputMessage, setInputMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendMessage = () => {
-    if (!inputMessage.trim()) return;
+  const handleSendMessage = async () => {
+    if (!inputMessage.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -36,53 +37,49 @@ const Chatbot = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = inputMessage;
     setInputMessage('');
+    setIsLoading(true);
 
-    // Simulate bot response
-    setTimeout(() => {
+    try {
+      const response = await fetch('https://api.achrafmansari.com/api/chatbot/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_prompt: currentInput
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response from chatbot');
+      }
+
+      const data = await response.json();
+      
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: getBotResponse(inputMessage),
+        text: data.answer || 'Sorry, I couldn\'t process your request right now.',
         isUser: false,
         timestamp: new Date(),
       };
+      
       setMessages(prev => [...prev, botResponse]);
-    }, 1000);
+    } catch (error) {
+      console.error('Chatbot API error:', error);
+      const errorResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        text: 'Sorry, I\'m having trouble connecting right now. Please try again later.',
+        isUser: false,
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, errorResponse]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const getBotResponse = (userInput: string): string => {
-    const input = userInput.toLowerCase();
-    
-    if (input.includes('rug') || input.includes('textile')) {
-      return 'Our rugs and textiles are handwoven by skilled artisans from regions like Azilal and Beni Ourain. Each piece tells a unique story through its patterns and colors. Would you like to know more about a specific style?';
-    }
-    
-    if (input.includes('pottery') || input.includes('ceramic')) {
-      return 'Moroccan pottery, especially from Tamegroute and Fez, has been crafted for centuries using traditional techniques. The distinctive green glaze of Tamegroute pottery comes from copper found in local mountains. What type of pottery interests you?';
-    }
-    
-    if (input.includes('price') || input.includes('cost')) {
-      return 'Our prices reflect the authentic craftsmanship and quality materials used. Each piece is fairly priced to support our artisan partners. You can find detailed pricing on each product page.';
-    }
-    
-    if (input.includes('shipping') || input.includes('delivery')) {
-      return 'We offer worldwide shipping with careful packaging to ensure your handcrafted items arrive safely. Shipping times vary by location, typically 5-14 business days internationally.';
-    }
-    
-    if (input.includes('artisan') || input.includes('maker')) {
-      return 'We work directly with artisan cooperatives and individual craftspeople across Morocco. Each product page includes information about the artisan and their region. This ensures fair trade and authentic craftsmanship.';
-    }
-    
-    if (input.includes('hello') || input.includes('hi')) {
-      return 'Hello! I\'m here to help you discover the beauty of Moroccan craftsmanship. Are you looking for something specific, or would you like recommendations?';
-    }
-
-    if (input.includes('t7awa')) {
-      return 'sir wla ghanji n7wi mok a w9';
-    }
-    
-    return 'Thank you for your question! I\'d be happy to help you learn more about our authentic Moroccan crafts. You can browse our categories or ask me about specific products, artisans, or regions.';
-  };
 
   return (
     <>
@@ -117,22 +114,35 @@ const Chatbot = () => {
             {/* Messages */}
             <ScrollArea className="flex-1 pr-3 mb-3">
               <div className="space-y-3">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[80%] p-3 rounded-lg text-sm ${
-                        message.isUser
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-muted text-muted-foreground'
-                      }`}
-                    >
-                      {message.text}
-                    </div>
-                  </div>
-                ))}
+                 {messages.map((message) => (
+                   <div
+                     key={message.id}
+                     className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                   >
+                     <div
+                       className={`max-w-[80%] p-3 rounded-lg text-sm ${
+                         message.isUser
+                           ? 'bg-primary text-primary-foreground'
+                           : 'bg-muted text-muted-foreground'
+                       }`}
+                     >
+                       {message.text}
+                     </div>
+                   </div>
+                 ))}
+                 {isLoading && (
+                   <div className="flex justify-start">
+                     <div className="max-w-[80%] p-3 rounded-lg text-sm bg-muted text-muted-foreground">
+                       <div className="flex items-center space-x-1">
+                         <div className="flex space-x-1">
+                           <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                           <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                           <div className="w-2 h-2 bg-current rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                 )}
               </div>
             </ScrollArea>
 
@@ -148,7 +158,7 @@ const Chatbot = () => {
               <Button
                 onClick={handleSendMessage}
                 size="icon"
-                disabled={!inputMessage.trim()}
+                disabled={!inputMessage.trim() || isLoading}
               >
                 <Send className="h-4 w-4" />
               </Button>
