@@ -58,9 +58,18 @@ const Chatbot = () => {
 
       const data = await response.json();
       
+      let responseText = '';
+      if (data.answer) {
+        responseText = data.answer;
+      } else if (data.error) {
+        responseText = data.error;
+      } else {
+        responseText = 'Sorry, I couldn\'t process your request right now.';
+      }
+      
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: data.answer || 'Sorry, I couldn\'t process your request right now.',
+        text: responseText,
         isUser: false,
         timestamp: new Date(),
       };
